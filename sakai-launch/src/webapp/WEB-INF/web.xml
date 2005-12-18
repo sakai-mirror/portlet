@@ -1,0 +1,491 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+                         "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <display-name>Sakai Launch Portlet</display-name>
+
+  <servlet>
+    <servlet-name>SakaiGallery</servlet-name>
+    <display-name> Sakai Gallery (Pluto Invoker)</display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.SakaiGallery</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SakaiLaunch</servlet-name>
+    <display-name> Sakai Launch (Pluto Invoker)</display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.SakaiLaunch</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.announcements</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.announcements</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+
+  <servlet>
+    <servlet-name>sakai.assignment</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.assignment</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.chat</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.chat</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.discussion</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.discussion</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.gradebook.tool</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.gradebook.tool</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.mailbox</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.mailbox</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.membership</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.membership</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.messageforums</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.messageforums</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.preferences</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.preferences</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.presentation</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.presentation</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.profile</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.profile</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.resources</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.resources</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.rwiki</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.rwiki</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.samigo</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.samigo</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.site.roster</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.site.roster</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.schedule</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.schedule</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.siteinfo</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.siteinfo</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+  <servlet>
+    <servlet-name>sakai.syllabus</servlet-name>
+    <display-name> Sakai Proxy </display-name>
+    <description>Auto Generated Portlet Invoker Servlet</description>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+      <param-name>portlet-class</param-name>
+      <param-value>org.sakaiproject.portlets.SakaiLaunch</param-value>
+    </init-param>
+    <init-param>
+      <param-name>portlet-guid</param-name>
+      <param-value>sakai-portlets.sakai.syllabus</param-value>
+    </init-param>
+    <security-role-ref>
+      <role-name>plutoTestRole</role-name>
+      <role-link>tomcat</role-link>
+    </security-role-ref>
+  </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SakaiGallery</servlet-name>
+        <url-pattern>/sakaigallery/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SakaiLaunch</servlet-name>
+        <url-pattern>/sakailaunch/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.announcements</servlet-name>
+        <url-pattern>/sakai.announcements/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.assignment</servlet-name>
+        <url-pattern>/sakai.assignment/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.chat</servlet-name>
+        <url-pattern>/sakai.chat/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.discussion</servlet-name>
+        <url-pattern>/sakai.discussion/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.gradebook.tool</servlet-name>
+        <url-pattern>/sakai.gradebook.tool/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.mailbox</servlet-name>
+        <url-pattern>/sakai.mailbox/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.membership</servlet-name>
+        <url-pattern>/sakai.membership/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.messageforums</servlet-name>
+        <url-pattern>/sakai.messageforums/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.preferences</servlet-name>
+        <url-pattern>/sakai.preferences/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.presentation</servlet-name>
+        <url-pattern>/sakai.presentation/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.profile</servlet-name>
+        <url-pattern>/sakai.profile/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.resources</servlet-name>
+        <url-pattern>/sakai.resources/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.rwiki</servlet-name>
+        <url-pattern>/sakai.rwiki/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.samigo</servlet-name>
+        <url-pattern>/sakai.samigo/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.site.roster</servlet-name>
+        <url-pattern>/sakai.site.roster/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.schedule</servlet-name>
+        <url-pattern>/sakai.schedule/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.siteinfo</servlet-name>
+        <url-pattern>/sakai.siteinfo/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>sakai.syllabus</servlet-name>
+        <url-pattern>/sakai.syllabus/*</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>

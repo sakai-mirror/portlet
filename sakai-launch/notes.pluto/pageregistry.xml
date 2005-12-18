@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<!-- 
+Copyright 2004,2005 The Apache Software Foundation
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<portal>
+
+    <fragment name="navigation" class="org.apache.pluto.portalImpl.aggregation.navigation.TabNavigation">
+    </fragment>
+    
+    <fragment name="test" type="page">
+        <navigation>
+            <title>Test</title>
+            <description>...</description>
+        </navigation>
+
+        <fragment name="row" type="row">
+
+            <fragment name="col1" type="column">
+
+                <fragment name="p1" type="portlet">
+                    <property name="portlet" value="3.1"/>
+                </fragment>
+
+                <fragment name="p2" type="portlet">
+                    <property name="portlet" value="4.1"/>
+                </fragment>
+
+            </fragment>
+
+        </fragment>
+
+    </fragment>
+
+
+    <fragment name="adminportletapp" type="page">
+        <navigation>
+            <title>Admin</title>
+            <description>Used for deploying portlets to Pluto</description>
+        </navigation>
+
+        <fragment name="row" type="row">
+
+            <fragment name="col1" type="column">
+
+                <fragment name="p1" type="portlet">
+                    <property name="portlet" value="5.0"/>
+                </fragment>
+
+                <fragment name="p2" type="portlet">
+                    <property name="portlet" value="5.1"/>
+                </fragment>
+
+                <fragment name="p3" type="portlet">
+                    <property name="portlet" value="5.2"/>
+                </fragment>
+
+            </fragment>
+
+        </fragment>
+
+    </fragment>
+
+    <fragment name="SakaiGallery" type="page">
+        <navigation>
+            <title>Sakai Gallery</title>
+            <description>Includes Sakai in a JSR-168 portlet.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.1"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="SakaiTree" type="page">
+        <navigation>
+            <title>Sakai Tree</title>
+            <description>Renders a tree view of Sakai sites navigation.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.2"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Announcements" type="page">
+        <navigation>
+            <title>Sakai Announcements</title>
+            <description>Places a Sakai Announcements.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.3"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Assignments" type="page">
+        <navigation>
+            <title>Sakai Assignments</title>
+            <description>Places a Sakai Assignments.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.4"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Chat" type="page">
+        <navigation>
+            <title>Sakai Chat</title>
+            <description>Places a Sakai Chat.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.5"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Discussion" type="page">
+        <navigation>
+            <title>Sakai Discussion</title>
+            <description>Places a Sakai Discussion.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.6"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Gradebook" type="page">
+        <navigation>
+            <title>Sakai Gradebook</title>
+            <description>Places a Sakai Gradebook.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.7"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Email" type="page">
+        <navigation>
+            <title>Sakai Email</title>
+            <description>Places a Sakai Email.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.8"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Membership" type="page">
+        <navigation>
+            <title>Sakai Membership</title>
+            <description>Places a Sakai Membership.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="8.9"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Message" type="page">
+        <navigation>
+            <title>Sakai Message</title>
+            <description>Places a Sakai Message.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.1"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Preferences" type="page">
+        <navigation>
+            <title>Sakai Preferences</title>
+            <description>Places a Sakai Preferences.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.2"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Presentation" type="page">
+        <navigation>
+            <title>Sakai Presentation</title>
+            <description>Places a Sakai Presentation.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.3"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Profile" type="page">
+        <navigation>
+            <title>Sakai Profile</title>
+            <description>Places a Sakai Profile.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.4"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Resources" type="page">
+        <navigation>
+            <title>Sakai Resources</title>
+            <description>Places a Sakai Resources.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.5"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Wiki" type="page">
+        <navigation>
+            <title>Sakai Wiki</title>
+            <description>Places a Sakai Wiki.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.6"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.TestsQuizzes" type="page">
+        <navigation>
+            <title>Sakai Assessment</title>
+            <description>Places a Sakai Assessment.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.7"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Roster" type="page">
+        <navigation>
+            <title>Sakai Roster</title>
+            <description>Places a Sakai Roster.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.8"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Schedule" type="page">
+        <navigation>
+            <title>Sakai Schedule</title>
+            <description>Places a Sakai Schedule.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="9.9"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Site" type="page">
+        <navigation>
+            <title>Sakai Site</title>
+            <description>Places a Sakai Site.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="7.1"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Syllabus" type="page">
+        <navigation>
+            <title>Sakai Syllabus</title>
+            <description>Places a Sakai Syllabus.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="7.2"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+</portal>

@@ -1,0 +1,451 @@
+package org.sakaiproject.portlets;
+
+import javax.portlet.GenericPortlet;
+import javax.portlet.RenderRequest;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.RenderResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletContext;
+import javax.portlet.PortletRequestDispatcher;
+import javax.portlet.PortletConfig;
+import javax.portlet.WindowState;
+import javax.portlet.PortletMode;
+import javax.portlet.ValidatorException;
+import javax.portlet.PortletSession;
+
+import java.io.PrintWriter;
+import java.io.IOException;
+
+import java.util.List;
+import java.util.Vector;
+import java.util.Map;
+
+import java.net.URLEncoder;
+
+import org.apache.axis.client.Call;
+import org.apache.axis.client.Service;
+import org.apache.axis.AxisFault;
+
+import javax.xml.namespace.QName;
+
+import org.sakaiproject.util.xml.Xml;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+ * a simple SakaiLaunch Portlet
+ */
+public class SakaiLaunch extends GenericPortlet {
+
+    private final String LAUNCH_STATE = "launch.session";
+    private final String LAUNCH_STATE_LOGIN = "login";
+    private final String LAUNCH_STATE_MAIN = "main";
+
+    // The designated host and secret that we have override capabilities for
+    private String initHost  = null;
+    private String initSecret = null;
+    private boolean autoLoginPossible = false;
+
+    private PortletContext pContext;
+
+    // Get the host for this placement
+    public void init(PortletConfig config) throws PortletException {
+        super.init(config);
+
+        pContext = config.getPortletContext();
+
+	// Retrieve our "secret friend" host
+        initHost  = config.getInitParameter("sakai.host");
+	initSecret = config.getInitParameter("sakai.secret");
+	autoLoginPossible = (initHost != null) && (initSecret != null);
+
+System.out.println("host = "+initHost+" secret="+initSecret+" possible="+autoLoginPossible);
+
+   }
+
+    private class SakaiSite {
+	public String id = null;
+        public String title = null;
+	public String host = null;
+	public String session = null;   // Session is optional
+
+        public String toString() { return title; }
+
+	public String toStringFull() {
+		return "title="+title+" url="+getUrl();
+	}
+
+	// TODO: UrlEncode
+	public String getUrl()
+	{  
+		String retval =  host + "/portal/worksite/" + URLEncoder.encode(id);
+		if ( session != null ) retval = retval + "?sakai.session=" + URLEncoder.encode(session);
+	 	return retval;
+	} 
+    } 
+
+    private String getTag(Element theElement, String elementName)
+    {
+	try {
+                Node node = theElement.getElementsByTagName(elementName).item(0);
+
+                if (node.getNodeType() == node.TEXT_NODE){
+		     return node.getNodeValue();
+                } else if (node.getNodeType() == node.ELEMENT_NODE) {
+                     return node.getFirstChild().getNodeValue();
+                }
+		return null;
+	} 
+	catch (Exception e)
+	{
+		return null;
+	}
+
+    }
+
+    // Handle the different ways to get the logged in user - From Marchu Christie
+    // Tested in uPortal, Pluto, and GridSphere
+    private String getPortalUsername(PortletRequest request) {
+        Map userInfo = (Map) request.getAttribute(PortletRequest.USER_INFO);
+        String username = (userInfo!=null) ? (String) userInfo.get("user.name") : null;
+        if (username == null) {
+                username = request.getRemoteUser();
+        }
+System.out.println("Remote User="+username);
+        return username;
+    }
+
+    private void sendToJSP(RenderRequest request, RenderResponse response, String jspPage)
+	throws PortletException
+    {
+	response.setContentType(request.getResponseContentType());
+        if (jspPage != null && jspPage.length() != 0) {
+            try {
+                PortletRequestDispatcher dispatcher = pContext.getRequestDispatcher(jspPage);
+                dispatcher.include(request, response);
+            } catch (IOException e) {
+                throw new PortletException("Sakai Dispatch unabble to use " + jspPage, e);
+            }
+        }
+    }
+
+
+    public void doView(RenderRequest request, RenderResponse response)
+            throws PortletException, IOException {
+        response.setContentType("text/html");
+
+	PortletSession pSession = request.getPortletSession(true);
+        PortletPreferences prefs = request.getPreferences();        
+
+	List siteList = (List) pSession.getAttribute("site.list");
+
+	String autoLogin = prefs.getValue("sakai.auto",null);
+        if ( autoLogin == null ) autoLogin = "x" ; // Don't care
+	String autoDone = (String) pSession.getAttribute("auto.done");
+	String remoteUser = getPortalUsername(request);
+
+System.out.println("autoLogin = "+autoLogin+" autoDone="+autoDone+" remote="+remoteUser);
+
+        if ( siteList == null && autoDone == null && remoteUser != null &&
+		autoLoginPossible && ! autoLogin.equals("0") ) {
+		// Only do this once, success or failure
+		pSession.setAttribute("auto.done","true");
+	        siteList = loadSiteList(pSession, initHost, remoteUser, initSecret, true);
+		if ( siteList != null ) pSession.setAttribute("site.list", siteList);
+	}
+
+	if ( siteList == null ) {
+	    pSession.setAttribute(LAUNCH_STATE,LAUNCH_STATE_LOGIN);
+            String sakaiHost  = prefs.getValue("sakai.host","http://nightly2.sakaiproject.org");
+            request.setAttribute("sakai.host",sakaiHost);
+
+            String theUser  = prefs.getValue("sakai.id",null);
+	    if ( theUser == null || theUser.length() < 1 ) theUser = getPortalUsername(request);
+	    if ( theUser == null ) theUser = "";
+            request.setAttribute("sakai.id",theUser);
+
+            request.setAttribute("sakai.pw","");
+	    sendToJSP(request,response,"/launchLogin.jsp");
+	    return;
+        }
+
+	pSession.setAttribute(LAUNCH_STATE,LAUNCH_STATE_MAIN);
+	// Now we have the list of things :)
+        PrintWriter out = response.getWriter();
+
+        String strIndex = (String) pSession.getAttribute("site.index");
+	int siteIndex = -1;
+	try { siteIndex = Integer.parseInt(strIndex); } catch(Exception e) { siteIndex = -1; }
+/*
+	if ( ! request.getWindowState().equals(WindowState.MAXIMIZED) ) {
+	   for ( int i= 0; i < siteList.size(); i++ ) {
+	      SakaiSite theSite = (SakaiSite) siteList.get(i);
+	      out.println("<li><a href="+theSite.getUrl() + " target=_new>" + theSite.title + "</a>\r\n");
+	   }
+	   return;
+	}
+*/
+	PortletURL url = response.createActionURL();
+	out.println("<table border=0 cellspacing=0 cellpadding=2 width=\"100%\"><tr>");
+    	out.println("<td bgcolor=\"#666699\"><font face=\"sans-serif\" color=\"#FFFFFF\" size=\"+1\">");
+	out.println("<FORM METHOD=POST ACTION=\""+url.toString()+"\">");
+	out.println("<select name=site.index onchange=\"JavaScript:submit()\">");
+	out.println("<option value=select>Select Sakai Site</option>");
+	String theURL = null;
+	for ( int i= 0; i < siteList.size(); i++ ) {
+	   SakaiSite theSite = (SakaiSite) siteList.get(i);
+	   String siteSel = "";
+           if ( i == siteIndex ) {
+	      siteSel = " selected=1";
+	      theURL = theSite.getUrl();
+	   }
+	   out.println("<option value="+i+siteSel+">" + theSite.title + "</option>");
+	}
+        out.println("<option value=logout>Logout From Sakai</option>");
+	out.println("</select></FORM></td></tr><tr><td>");
+
+        String theHeight  = prefs.getValue("sakai.height","800");
+        if ( theURL != null ) {
+	   out.println("<iframe frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\"");
+	   out.println("width=\"100%\" height=\""+theHeight+"px\"");
+	   out.println("src=\""+theURL+"\"></iframe>");
+        }
+	out.println("</td></tr></table>");
+    }
+
+    public void doEdit(RenderRequest request, RenderResponse response)
+            throws PortletException, IOException {
+
+        PortletPreferences prefs = request.getPreferences();        
+        String sakaiHost  = prefs.getValue("sakai.host","http://nightly2.sakaiproject.org");
+        request.setAttribute("sakai.host",sakaiHost);
+        String sakaiId  = prefs.getValue("sakai.id",getPortalUsername(request));
+        request.setAttribute("sakai.id",sakaiId);
+        String sakaiHeight  = prefs.getValue("sakai.height","800");
+        request.setAttribute("sakai.height",sakaiHeight);
+	if ( initHost != null && initSecret != null ) {
+        	request.setAttribute("do.auto","yes");
+        	String sakaiAuto  = prefs.getValue("sakai.auto","0");
+		if ( sakaiAuto != null && sakaiAuto.equals("1") ) {
+        		request.setAttribute("sakai.auto","yes");
+		}
+	}
+	sendToJSP(request,response,"/launchEdit.jsp");
+    }
+
+    public void doHelp(RenderRequest request, RenderResponse response)
+            throws PortletException, IOException {
+	sendToJSP(request,response,"/launchHelp.jsp");
+    }
+
+    public void processAction(ActionRequest request,ActionResponse response) throws PortletException, IOException {
+        PortletPreferences prefs = request.getPreferences();
+	PortletSession pSession = request.getPortletSession(true);
+
+	String launchState = (String) pSession.getAttribute(LAUNCH_STATE);
+	pSession.removeAttribute(LAUNCH_STATE);
+
+System.out.println("processAction mode="+request.getPortletMode());
+System.out.println("state = "+launchState);
+        
+        if (request.getPortletMode().equals(PortletMode.VIEW)) {
+           if ( launchState != null && launchState.equals(LAUNCH_STATE_LOGIN) ) {
+		processActionLogin(request, response);
+		return;
+	   }
+           if ( launchState != null && launchState.equals(LAUNCH_STATE_MAIN) ) {
+		processActionMain(request, response);
+		return;
+	   }
+        }
+        else
+        if (request.getPortletMode().equals(PortletMode.EDIT)) {            
+	    boolean editOK;
+	    pSession.removeAttribute("site.list");
+	    pSession.removeAttribute("sakai.session");
+            String errorMsg = null;            
+            String newHost = request.getParameter("sakai.host");
+            prefs.setValue("sakai.host",newHost);
+            String newId = request.getParameter("sakai.id");
+            prefs.setValue("sakai.id",newId);
+            String newHeight = request.getParameter("sakai.height");
+            prefs.setValue("sakai.height",newHeight);
+
+            String newAuto = request.getParameter("sakai.auto");
+System.out.println("Sakai.auto = "+newAuto);
+	    if ( newAuto == null ) {
+            	prefs.setValue("sakai.auto","0");
+	    } else {
+            	prefs.setValue("sakai.auto","1");
+	    }
+
+            try {
+                prefs.store();
+                editOK = true;
+            }
+            catch (ValidatorException ex) {
+                editOK = false;
+                errorMsg = ex.getMessage();
+            }                    
+            if (editOK) {
+                response.setPortletMode(PortletMode.VIEW);
+            }
+            else {
+                response.setRenderParameter("error",errorMsg);
+            }
+        }
+    }
+
+    public void processActionLogin(ActionRequest request,ActionResponse response) throws PortletException, IOException {
+	PortletSession pSession = request.getPortletSession(true);
+        String sakaiHost = request.getParameter("sakai.host");
+	String sakaiId = request.getParameter("sakai.id");
+	String sakaiPw = request.getParameter("sakai.pw");
+
+	List allSites = loadSiteList(pSession, sakaiHost, sakaiId, sakaiPw, false);
+        String errorStr = (String) pSession.getAttribute("error");
+	
+System.out.println("Error from load="+errorStr);
+
+	if ( errorStr != null ) {
+	   response.setRenderParameter("error",errorStr);
+        }
+
+	if ( allSites != null ) {
+            try {
+                PortletPreferences prefs = request.getPreferences();
+                String newHost = request.getParameter("sakai.host");
+	        sakaiId = request.getParameter("sakai.id");
+                prefs.setValue("sakai.host",newHost);
+                prefs.setValue("sakai.id",sakaiId);
+                prefs.store();
+            }
+            catch (ValidatorException ex) {
+		// No harm - this is a nice side effect if it happens
+            }                    
+        }
+    }
+
+    public void processActionMain(ActionRequest request,ActionResponse response) throws PortletException, IOException {
+	PortletSession pSession = request.getPortletSession(true);
+	String strIndex = request.getParameter("site.index");
+	if ( strIndex.equals("logout") ) {
+		pSession.removeAttribute("site.list");
+		pSession.removeAttribute("site.index");
+	}
+	else
+	{
+		pSession.setAttribute("site.index", strIndex);
+	}
+	System.out.println("PAM index="+strIndex);
+    }
+
+    public List loadSiteList(PortletSession pSession, String sakaiHost, String sakaiId, String sakaiPw, boolean doAuto)
+    {
+System.out.println("loadSiteList host="+sakaiHost+" id="+sakaiId+" pw="+sakaiPw+" auto="+doAuto);
+
+        String endpoint;
+	String session = null;
+        String siteList = null;
+
+       try {
+
+	   pSession.removeAttribute("site.list");
+	   pSession.removeAttribute("sakai.session");
+	   pSession.removeAttribute("error");
+
+           String axisPoint  = sakaiHost +"/sakai-axis/";
+
+           Service  service = new Service();
+           Call call = (Call) service.createCall();
+
+           String firstName = pUser.getFirstName(request);
+           String lastName = pUser.getLastName(request);
+           String email = pUser.getEmail(request);
+
+           if ( doAuto && firstName != null && lastName != null && email != null ) {
+                endpoint =  axisPoint + "SakaiPortalLogin.jws";
+                System.out.println("Portal Login + Create "+endpoint);
+                call.setOperationName("loginAndCreate");
+                call.setTargetEndpointAddress( new java.net.URL(endpoint) );
+                session = (String) call.invoke( new Object[] { sakaiId, sakaiPw , firstName, lastName, email } );
+           } else if ( doAuto) {
+                endpoint =  axisPoint + "SakaiPortalLogin.jws";
+                call.setOperationName("login");
+                call.setTargetEndpointAddress( new java.net.URL(endpoint) );
+                session = (String) call.invoke( new Object[] { sakaiId, sakaiPw } );
+           } else {
+                endpoint =  axisPoint + "SakaiLogin.jws";
+                call.setOperationName("login");
+                call.setTargetEndpointAddress( new java.net.URL(endpoint) );
+                session = (String) call.invoke( new Object[] { sakaiId, sakaiPw } );
+           }
+
+System.out.println("Login suggessful...");
+
+  	   if ( session == null || session.length() < 2 ) {
+	   	System.out.println("Unable to establish session to " + sakaiHost );
+	   	pSession.setAttribute("error","Unable to establish session to " + sakaiHost );
+		return null;
+	   }
+
+	   service = new Service();
+	   call = (Call) service.createCall();
+
+           call.setTargetEndpointAddress( new java.net.URL(axisPoint + "SakaiSite.jws") );
+           call.setOperationName("getSitesDom");
+
+           siteList = (String) call.invoke( 
+			new Object[] { session, "", new Integer(1), new Integer(9999) } 
+			);
+
+           Document doc = Xml.readDocumentFromString(siteList);
+
+           NodeList children = doc.getElementsByTagName("site");
+           System.out.println("There are "+children.getLength()+" child elements.\n");
+
+	   if ( children.getLength() < 1 ) {
+	   	pSession.setAttribute("error","No sites available to you on " + sakaiHost );
+		return null;
+	   }
+
+	   List allSites = new Vector();
+	   for (int i=0; i< children.getLength(); i++ ) {
+		Element elem = (Element) children.item(i);
+
+		System.out.println("ID = "+getTag(elem,"id"));
+		System.out.println("title = "+getTag(elem,"title"));
+		SakaiSite theSite = new SakaiSite();
+		theSite.host = sakaiHost;
+		theSite.session = session;
+		theSite.id = getTag(elem,"id");
+		theSite.title = getTag(elem,"title");
+		allSites.add(theSite);
+
+		System.out.println("<li><a href="+theSite.getUrl() + " target=_new>" +
+			theSite.title + "</a>\r\n");
+	   }
+
+	   pSession.setAttribute("site.list",allSites);
+	   pSession.setAttribute("sakai.session",session);
+	   return allSites;
+
+       } catch (Exception e) {
+	   pSession.setAttribute("error","Error retrieving site list: " + e.toString() );
+           System.out.println("Exception:"+e.toString());
+	   return null;
+       }
+/*
+       out.println("<p/><hr/><h3>Debug output</h3>\r\n");
+       out.println("Sakai Session:" + session + "\r\n");
+       if ( siteList != null ) out.println("<pre>\r\n" + siteList.replaceAll("<","&lt;") + "\r\n</pre>\r\n");
+*/
+    }
+
+}

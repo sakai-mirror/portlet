@@ -1,0 +1,21 @@
+Sun Dec 18 14:47:49 EST 2005
+
+This contains two web services that are needed:
+
+SakaiPortalLogin.jws - This is already present in Sakai 2.1
+SakaiSite.jws - This was not in the 2.1 release - hopefully it will be in the 2.1.1 release.
+
+If you check out from trunk, these files are there.
+
+Replace these two files in the following spot in Sakai source:
+
+~/dev/sakai/webservices/axis/src/webapp
+
+You can always put them directly in 
+
+~/dev/tomcat/webapps/sakai-axis/
+
+But then they will get wiped out after a re-deploy of webservices from source.
+
+/Chuck
+

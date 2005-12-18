@@ -1,0 +1,39 @@
+
+Bootstrapping instructions for Pluto
+
+svn checkout https://svn.apache.org/repos/asf/portals/pluto/trunk/ pluto
+
+Make sure ~/build.properties is correct.
+
+  maven.repo.remote = http://cvs.sakaiproject.org/maven,http://www.ibiblio.org/maven
+  maven.tomcat.home = /Users/csev/dev/jakarta-tomcat-5.5.9
+  maven.tomcat.version.major=5
+
+maven fullDeployment
+
+Come into this directory and do 
+
+maven sakai (build and deploy into tomcat as a war)
+
+Edit the Pluto configuration files
+
+   pageregistry.xml
+   portletcontexts.txt
+   portletentityregistry.xml
+
+These files go into TOMCAT_HOME/webapps/pluto/WEB-INF/data - make sure to do diffs and 
+properly apply the changes as things may shift.  How I did it :)
+
+    cp *.* ~/dev/jakarta-tomcat-5.5.9/webapps/pluto/WEB-INF/data/
+
+Start Tomcat in the normal way.
+
+http://localhost:8080/pluto/portal
+
+References:
+
+http://portals.apache.org/pluto/userguide/portal.html
+
+/Chuck Severance
+Sun Aug  7 20:54:55 EDT 2005
+
