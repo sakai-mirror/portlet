@@ -29,7 +29,7 @@
    		<dependency>
       			<groupId>axis</groupId>
       			<artifactId>axis</artifactId>
-      			<version>1.2</version>
+      			<version>1.3</version>
       			<properties>
         			<war.bundle>true</war.bundle>
       			</properties>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>axis</groupId>
 			<artifactId>axis-jaxrpc</artifactId>
-			<version>1.2</version>
+			<version>1.3</version>
 			<properties>
 				<war.bundle>true</war.bundle>
 			</properties>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>axis</groupId>
 			<artifactId>axis-saaj</artifactId>
-			<version>1.2</version>
+			<version>1.3</version>
 			<properties>
 				<war.bundle>true</war.bundle>
 			</properties>
@@ -92,7 +92,7 @@
 
                 <dependency>
                         <groupId>sakaiproject</groupId>
-                        <artifactId>sakai-util-xml</artifactId>
+                        <artifactId>sakai-util</artifactId>
                         <properties>
                                 <war.bundle>true</war.bundle>
                         </properties>
