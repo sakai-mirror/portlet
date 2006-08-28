@@ -1,0 +1,131 @@
+Bootstrapping instructions for running Sakai Portlets in Pluto 1.1
+
+Important Reference:
+http://portals.apache.org/pluto/v11/getting-started.html
+
+I would note that so far I have *NEVER* got the beta1 to compile - I use trunk.
+
+Check this out somewhere *outside* of Sakai.  Perhaps ~/dev/pluto-1.1/pluto-trunk
+
+svn checkout https://svn.apache.org/repos/asf/portals/pluto/tags/release-1.1.0-beta1/ pluto-beta1
+svn checkout https://svn.apache.org/repos/asf/portals/pluto/trunk/ pluto-trunk
+
+You must have Maven 2.0 installed - Differnt than Maven 1 - but both work OK.
+
+cd pluto-trunk
+mvn -Dmaven.test.skip=true install 
+mvn -DinstallDir="/Users/csev/dev/apache-tomcat-5.5.17/" pluto:install
+
+Useful:
+
+mvn -U option - adds a check of repo files
+mvn clean
+
+Edit the Tomcat configuration files
+
+Add a pluto role and give the role to users
+
+Allow cross-application session adding the emptySessionPath to the 8080 Connector
+
+Set up the sakai-portlets context, making sure to have no Manager so sessions are
+not serialized after restarts - keeps you from going inSANE!  See Notes at end.
+
+Set up the sakai.properties to set up the secret and store the DB over restarts.
+
+cp tomcat-users.xml ~/dev/apache-tomcat-5.5.17/conf/tomcat-users.xml 
+cp server.xml ~/dev/apache-tomcat-5.5.17/conf/server.xml 
+
+cp sakai-portlets.xml ~/dev/apache-tomcat-5.5.17/conf/Catalina/localhost/sakai-portlets.xml 
+mkdir ~/dev/apache-tomcat-5.5.17/sakai 
+cp sakai.properties ~/dev/apache-tomcat-5.5.17/sakai
+
+Start Tomcat and then shut it down to get the wars expanded.  You can go to the /pluto path
+for fun if you like.  
+
+Add the portlets to Pluto's list of pages.
+
+cp pluto-portal-driver-config.xml ~/dev/apache-tomcat-5.5.17/webapps/pluto/WEB-INF/pluto-portal-driver-config.xml 
+
+==== Now to Sakai =====
+
+If you are reading this, it looks like you have the portlet directory checked out of SVN into your
+~/dev/sakai (or whatever).
+
+Since Sakai and TOMCAT will be both setting JSESSIONID - it will be bad - Logging into Sakai in the
+iframe will log you *out* of Tomcat.  The quick workaround for testing is to have Sakai use
+a different cookie.  This approach would work fine for a small installation with no IP sprayer. 
+But if you want to deploy both your portal and Sakai behind IP sprayers - Sakai and your
+portal will have to be on different host names.
+
+For testing, Edit the file
+vi ~/dev/sakai/tool/tool-util/servlet/src/java/org/sakaiproject/util/RequestFilter.java
+
+Change JSESSIONID to something else like KSESSIONID or something which hits your fancy.
+NEVER EVER CHECK this back in or you will break IP spraying for load balanced Sakai's.
+
+Go into cd ~/dev/sakai/portlet/sakai-launch/src/webapp/WEB-INF
+-rw-r--r--   1 csev  csev   2613 Aug 27 18:44 makeweb.csh
+-rw-r--r--   1 csev  csev  26633 Aug 26 17:47 portlet.xml
+-rw-r--r--   1 csev  csev  15361 Aug 27 14:07 web-pluto-1-0.xml
+-rw-r--r--   1 csev  csev  10178 Aug 27 14:06 web-pluto-1-1.xml
+-rw-r--r--   1 csev  csev  10178 Aug 27 14:08 web.xml
+
+Make sure that the web.xml is the pluto-1.1.web.xml - the makeweb.csh parses the portlet.xml
+genrates text for web.xml and pluto-portal-driver-config.xml depending on the parameter used.
+This is only needed when a new portlet is added to portlet.xml - otherwise - for now just pick 
+the right web.xml's.
+
+The stock web.xml should probably be very empty - not have any of the configuration for 
+pluto-1.1 or pluto-1.0 - that way, we produce a non-demonimnational war that can be munged 
+by the portal's installer.
+
+But since we are making and placing the war directly - we need the crud already added.
+
+Someday I might make it so that there is maven variable that puts the right web.xml into target
+as part of the maven operation.
+
+You might want to edit 
+~/dev/sakai/portlet/sakai-launch/src/webapp/WEB-INF/classes/org/sakaiproject/portlets/sakaiportlet.properties
+
+This sets up some defaults for the portlets.
+
+Compile all of Sakai including the portlets and deploy into Tomcat.
+
+cd ~/dev/sakai
+maven sakai
+
+This will build and deploy the portlets as well as the improved Request Filter.
+
+Start Tomcat and navigate to http://localhost:8080/pluto
+
+Upon restart - there is no harm in 
+
+rm -rf work/Catalina/localhost/
+
+When you recompile pluto - just to make sure..
+rm -rf webapps/pluto
+
+======= Notes ========
+
+Charles Severance wrote:
+There is a bug (I think) in session handling in Pluto 1.1.   Why would Pluto 1.1 keep a session across a Tomcat restart!
+
+Chuck,
+
+Have you tried putting a <Manager pathname=""/> element in your context.xml?  
+The context.xml should be in conf/Catalina/localhost/sakai-portlets.xml.  
+That should disable session persistence across restarts for that context.
+
+See also: 
+http://tomcat.apache.org/tomcat-5.5-doc/config/manager.html#Standard%20Implementation, 
+scroll down to the "pathname" attribute and also 
+http://tomcat.apache.org/tomcat-5.5-doc/config/manager.html#Restart%20Persistence
+
+HTH,
+Elliot
+
+======= End of Notes ========
+
+/Chuck Severance
+Sun Aug 27 18:21:04 EDT 2006
+

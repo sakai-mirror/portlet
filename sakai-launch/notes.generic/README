@@ -1,0 +1,26 @@
+Making and using a generic war
+
+For the uploadable war (run-time configurable), make sure to use the generic web.xml with
+no servlet or servlet mapping entries.
+
+ls -l ../src/webapp/WEB-INF/
+total 128
+-rw-r--r--   1 csev  csev   2582 Aug 27 19:45 makeweb.csh
+-rw-r--r--   1 csev  csev  26633 Aug 26 17:47 portlet.xml
+-rw-r--r--   1 csev  csev  15481 Aug 28 00:25 web-pluto-1-0.xml
+-rw-r--r--   1 csev  csev  10178 Aug 27 14:06 web-pluto-1-1.xml
+-rw-r--r--   1 csev  csev    911 Aug 28 01:00 web.xml
+
+To comple only use maven bld (not dpl or sakai) so as to produce a war in the maven
+repository.  This is the "general purpose war" ready for upload.
+
+cp ~/.maven/repository/sakaiproject/wars/sakai-portlets-dev.war ~/Desktop/
+
+Make sure you get the *right* war that you want.
+
+Start your portal - go to the admin portlet, follow instructions. And viola!  Your portlet
+is in play...
+
+/Chuck
+Mon Aug 28 01:36:21 EDT 2006
+

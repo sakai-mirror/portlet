@@ -4,20 +4,11 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
         version="1.0">
 
+    <!-- Make sure the portlet name tags are all on one line so the makeweb.csh script works -->
     <portlet>
         <portlet-name>SakaiGallery</portlet-name>
         <display-name xml:lang="en">Sakai Gallery Portlet</display-name>
-        <description xml:lang="en">
-		This portlet shows a Sakai site minus the top login 
-		banner.  This portlet is used to effectively include "all of 
-	 	Sakai" in a JSR-168 portal.
-	</description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -48,26 +39,43 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
-
-    </portlet>
-
-    <portlet>
-        <portlet-name>SakaiLaunch</portlet-name>
-        <display-name xml:lang="en">Sakai Tree Portlet</display-name>
-        <description xml:lang="en">
-		This portlet retrieves Sakai sites, pages, and tools via web services
-		and displays the tool hieratchy in a tree control on the left hand side 
-		of the portlet.  The user can switch betweem Sakai pages and tools 
-		using the tree control.  The tree control replaces the site and page
-		navigation from Sakai.
-	</description>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
         <portlet-info>
             <title>Sakai Portlet</title>
             <short-title>Sakai Portlet</short-title>
             <keywords>Sakai</keywords>
         </portlet-info>
-        <description xml:lang="en">Sakai Launcher</description>
+
+    </portlet>
+
+    <portlet>
+        <portlet-name>SakaiLaunch</portlet-name>
+        <display-name xml:lang="en">Sakai Launch Portlet</display-name>
+        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
+
+       <init-param>
+            <name>sakai.tool</name>
+            <value>launch</value>
+       </init-param>
+
+        <expiration-cache>60</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>SakaiTree</portlet-name>
+        <display-name xml:lang="en">Sakai Tree Portlet</display-name>
+        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
        <init-param>
             <name>sakai.tool</name>
@@ -82,24 +90,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
     <portlet>
         <portlet-name>sakai.announcements</portlet-name>
         <display-name xml:lang="en">Sakai Announcements Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Announcements Portlet.</title>
-            <short-title>Sakai Announcements Portlet</short-title>
-            <keywords>Sakai Announcements</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -114,24 +116,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
 
     </portlet>
 
    <portlet>
         <portlet-name>sakai.assignment</portlet-name>
         <display-name xml:lang="en">Sakai Assignments Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Assignments Portlet.</title>
-            <short-title>Sakai Assignments Portlet</short-title>
-            <keywords>Sakai Assignments</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -146,24 +142,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
    <portlet>
         <portlet-name>sakai.chat</portlet-name>
         <display-name xml:lang="en">Sakai Chat Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Chat Portlet.</title>
-            <short-title>Sakai Chat Portlet</short-title>
-            <keywords>Sakai Chat</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -178,24 +168,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
    <portlet>
         <portlet-name>sakai.discussion</portlet-name>
         <display-name xml:lang="en">Sakai Discussion Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Discussion Portlet.</title>
-            <short-title>Sakai Discussion Portlet</short-title>
-            <keywords>Sakai Discussion</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -210,23 +194,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
    <portlet>
         <portlet-name>sakai.gradebook.tool</portlet-name>
         <display-name xml:lang="en">Sakai Gradebook Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Gradebook Portlet.</title>
-            <short-title>Sakai Gradebook Portlet</short-title>
-            <keywords>Sakai Gradebook</keywords>
-        </portlet-info>
 
        <init-param>
             <name>sakai.tool</name>
@@ -241,23 +219,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
    <portlet>
         <portlet-name>sakai.mailbox</portlet-name>
         <display-name xml:lang="en">Sakai Mail Archive Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Mail Archive Portlet.</title>
-            <short-title>Sakai Mail Archive Portlet</short-title>
-            <keywords>Sakai Mail Archive</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -272,24 +244,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
   <portlet>
         <portlet-name>sakai.membership</portlet-name>
         <display-name xml:lang="en">Sakai Membership Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Membership Portlet.</title>
-            <short-title>Sakai Membership Portlet</short-title>
-            <keywords>Sakai Membership</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -304,24 +270,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
   <portlet>
         <portlet-name>sakai.messageforums</portlet-name>
         <display-name xml:lang="en">Sakai Message Forums Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Message Forums Portlet.</title>
-            <short-title>Sakai Message Forums Portlet</short-title>
-            <keywords>Sakai Message Forums</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -336,23 +296,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.preferences</portlet-name>
         <display-name xml:lang="en">Sakai Preferences Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Preferences Portlet.</title>
-            <short-title>Sakai Preferences Portlet</short-title>
-            <keywords>Sakai Preferences</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -367,23 +321,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.presentation</portlet-name>
         <display-name xml:lang="en">Sakai Presentation Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Presentation Portlet.</title>
-            <short-title>Sakai Presentation Portlet</short-title>
-            <keywords>Sakai Presentation</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -398,24 +346,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 
   <portlet>
         <portlet-name>sakai.profile</portlet-name>
         <display-name xml:lang="en">Sakai Profile Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Profile Portlet.</title>
-            <short-title>Sakai Profile Portlet</short-title>
-            <keywords>Sakai Profile</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -430,23 +372,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.resources</portlet-name>
         <display-name xml:lang="en">Sakai Resources Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Resources Portlet.</title>
-            <short-title>Sakai Resources Portlet</short-title>
-            <keywords>Sakai Resources</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -461,23 +397,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.rwiki</portlet-name>
         <display-name xml:lang="en">Sakai Wiki Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Wiki Portlet.</title>
-            <short-title>Sakai Wiki Portlet</short-title>
-            <keywords>Sakai Wiki</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -492,23 +422,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.samigo</portlet-name>
         <display-name xml:lang="en">Sakai Assessment Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Assessment Portlet.</title>
-            <short-title>Sakai Assessment Portlet</short-title>
-            <keywords>Sakai Assessment</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -523,23 +447,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.site.roster</portlet-name>
         <display-name xml:lang="en">Sakai Roster Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Roster Portlet.</title>
-            <short-title>Sakai Roster Portlet</short-title>
-            <keywords>Sakai Roster</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -554,23 +472,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
     <portlet>
         <portlet-name>sakai.schedule</portlet-name>
         <display-name xml:lang="en">Sakai Calendar Portlet</display-name>
-        <description xml:lang="en">
-		This porltlet is used to place a Sakai calendar in a JSR-168 Portal.
-		When the portlet is placed, it will allow you to select amongst the
-		different Sakai calendars you have access to as part of the preferences
-		for this Portlet.
-	</description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Calendar Portlet - shows a Sakai calendar.</title>
-            <short-title>Sakai Calendar Portlet</short-title>
-            <keywords>Sakai Calendar</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -585,24 +497,18 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
 
     </portlet>
 
   <portlet>
         <portlet-name>sakai.siteinfo</portlet-name>
         <display-name xml:lang="en">Sakai Site Info Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Site Info Portlet.</title>
-            <short-title>Sakai Site Info Portlet</short-title>
-            <keywords>Sakai Site Info</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -617,23 +523,17 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
   <portlet>
         <portlet-name>sakai.syllabus</portlet-name>
         <display-name xml:lang="en">Sakai Syllabus Portlet</display-name>
-        <description xml:lang="en">
-                This porltlet is used to place a Sakai tool in a JSR-168 Portal.
-                When the portlet is placed, it will allow you to select amongst the
-                different Sakai tools you have access to as part of the preferences
-                for this Portlet.
-        </description>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-        <portlet-info>
-            <title>Sakai Syllabus Portlet.</title>
-            <short-title>Sakai Syllabus Portlet</short-title>
-            <keywords>Sakai Syllabus</keywords>
-        </portlet-info>
 
         <init-param>
             <name>sakai.tool</name>
@@ -648,6 +548,11 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Portlet</title>
+            <short-title>Sakai Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
     </portlet>
 
 

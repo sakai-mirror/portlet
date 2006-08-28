@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <role rolename="tomcat"/>
+  <role rolename="role1"/>
+  <role rolename="pluto"/>
+  <user username="tomcat" password="tomcat" roles="tomcat,pluto"/>
+  <user username="both" password="tomcat" roles="tomcat,role1,pluto"/>
+  <user username="role1" password="tomcat" roles="role1,pluto"/>
+</tomcat-users>

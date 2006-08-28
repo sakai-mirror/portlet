@@ -74,10 +74,25 @@ public class SakaiLaunch extends GenericPortlet {
 
     private final String LAUNCH_STATE_SELECT = "select";
 
+    private final String LAUNCH_STATE_LAUNCH = "launch";
+
+    private final String LAUNCH_STATE_SITE = "site";
+
+    private final String LAUNCH_STATE_TOOL = "tool";
+
+    private final String CURRENT_SITE = "current.site";
+    private final String CURRENT_SITE_TITLE = "current.site.title";
+
+    private final String CURRENT_TOOL = "current.tool";
+    private final String CURRENT_TOOL_TITLE = "current.tool.title";
+    private final String CURRENT_TOOL_URL = "current.tool.url";
+
     // The designated host and secret that we have override capabilities for
     private String initHost = null;
 
     private String initSecret = null;
+
+    private boolean debugPrintFlag = false;
 
     // Valid values: tool, gallery, tree
     private String initType = "tool";
@@ -133,9 +148,10 @@ public class SakaiLaunch extends GenericPortlet {
 		initHost = properties.getProperty("sakai.host");
 		initSecret = properties.getProperty("sakai.secret");
 		portalType = properties.getProperty("portal.type");
+		debugPrintFlag = "true".equals(properties.getProperty("debug.print"));
 	}
 
-	// System.out.println("SakaiLaunch.init() from properties host="+initHost+" secret="+initSecret+" type="+portalType);
+	debugPrint ("SakaiLaunch.init() from properties host="+initHost+" secret="+initSecret+" type="+portalType);
 
 	// Retrieve overrides from init-parms 
         pContext = config.getPortletContext();
@@ -145,8 +161,6 @@ public class SakaiLaunch extends GenericPortlet {
 	if ( parmsSecret != null ) initSecret = parmsSecret;
         String parmsType = config.getInitParameter("portal.type");
 	if ( parmsType != null ) portalType = parmsType;
-
-	// System.out.println("SakaiLaunch.init() after parms host="+initHost+" secret="+initSecret+" type="+portalType);
 
 	// Produce defaults in cases where none was found - only for host - not for secret
 
@@ -160,14 +174,15 @@ public class SakaiLaunch extends GenericPortlet {
 	// Figure out how we are supposed to display ourselves :)
 
 	initTool = config.getInitParameter("sakai.tool");
-	if ( initTool != null ) {
-		if ( initTool.equalsIgnoreCase("gallery") ) {
-			initTool = null;  // not really a tool
-			initType = "gallery";
-		} else if ( initTool.equalsIgnoreCase("tree") ) {
-			initTool = null;
-			initType = "tree";
-		}
+	if ( "gallery".equalsIgnoreCase(initTool) ) {
+		initTool = null;  // not really a tool
+		initType = "gallery";
+	} else if ( "tree".equalsIgnoreCase(initTool) ) {
+		initTool = null;
+		initType = "tree";
+	} else if ( "launch".equalsIgnoreCase(initTool) ) {
+		initTool = null;
+		initType = "launch";
 	}
 
         // Figure out what type of portal we are and how to get user information
@@ -187,6 +202,16 @@ public class SakaiLaunch extends GenericPortlet {
                 + " auto.login=" + autoLoginPossible+" initType="+initType+" initTool="+initTool);
         // System.out.println("secret=" + initSecret);
 
+    }
+
+    public void debugPrint(String str)
+    {
+	if ( debugPrintFlag ) 
+	{
+		System.out.println(str);
+	} else {
+		// Should do Log.debug here
+	}
     }
 
     private class SakaiSite {
@@ -279,26 +304,36 @@ public class SakaiLaunch extends GenericPortlet {
         String sakaiPlacement  = (String) pSession.getAttribute("sakai.placement");
 
         String autoLogin = prefs.getValue("sakai.auto", null);
-        if (autoLogin == null) autoLogin = "x"; // Don't care
         String remoteUser = pUser.getUsername(request);
 
-        // System.out.println("autoLogin = " + autoLogin + " autoDone=" + autoDone
-        //         + " remote=" + remoteUser+" session="+session);
+	debugPrint("doView site.list = "+siteList+" sakai.host="+host);
+        debugPrint("autoLogin = " + autoLogin + " autoDone=" + autoDone + " remote=" + remoteUser+" session="+session);
 
         if (siteList == null && autoDone == null && remoteUser != null
-                && autoLoginPossible && !autoLogin.equals("0")) {
+                && autoLoginPossible && !"0".equals(autoLogin)) {
             // Only do this once, success or failure
             pSession.setAttribute("auto.done", "true");
             siteList = loadSiteList(request, initHost, remoteUser, initSecret,
                     true);
-            if (siteList != null)
+	    debugPrint("loadSiteList  site.list="+siteList);
+	    // Things are looking good
+            if (siteList != null) {
                 pSession.setAttribute("site.list", siteList);
+		session = (String) pSession.getAttribute("sakai.session");
+		host = (String) pSession.getAttribute("sakai.host");
+		debugPrint("From session host="+host+" session="+session);
+	    }
         }
+
+	// If for some reason we did not get (or do not have ) a list of sites, simply 
+	// send the userto login 
 
         if (siteList == null) {
             pSession.setAttribute(LAUNCH_STATE, LAUNCH_STATE_LOGIN);
             String sakaiHost = prefs.getValue("sakai.host",initHost);
             request.setAttribute("sakai.host", sakaiHost);
+
+	    debugPrint("Sending user to login sakai.host=" + sakaiHost + " initHost=" + initHost);
 
             String theUser = prefs.getValue("sakai.id", null);
             if (theUser == null || theUser.length() < 1)
@@ -314,15 +349,18 @@ public class SakaiLaunch extends GenericPortlet {
 
 	// We now have a list of sites, properly retrieved
 
-	// System.out.println("sakai.tool = "+initTool+" Placement = " + sakaiPlacement);
+	debugPrint("sakai.tool = "+initTool+" Placement = " + sakaiPlacement);
 
 	// Handle single tool placement display
 
 	// If we are in tool mode and have no placement from preferences, we must
 	// get a placement - switch into Select mode
 	if ( initTool != null && sakaiPlacement == null ) {
+		debugPrint("Loading placements for "+initTool);
 		// Add the list of sites which contain the tools to the request
 		int numTools = addToolList(request,siteList);
+		debugPrint("Found placements="+numTools);
+
 		// With two tools or more do the selection
 		if ( numTools > 1 ) {
         		pSession.setAttribute(LAUNCH_STATE, LAUNCH_STATE_SELECT);
@@ -339,6 +377,8 @@ public class SakaiLaunch extends GenericPortlet {
 			return;
 		}
 		// Fall through - we have a single placement
+		// TODO: This fall through does not make sense
+		debugPrint("Hmmm.  Getting placement from session");
         	sakaiPlacement  = (String) pSession.getAttribute("sakai.placement");
 	}
 
@@ -351,6 +391,7 @@ public class SakaiLaunch extends GenericPortlet {
 	if ( sakaiPlacement != null ) {
 	    String thisUrl = host + "/portal/page/" + URLEncoder.encode(sakaiPlacement)
                 + "?panel=Main&sakai.session=" + URLEncoder.encode(session);
+	    debugPrint("Single tool url="+thisUrl);
             out
                     .println("<iframe frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\"");
             out.println("width=\"100%\" height=\"" + theHeight + "px\"");
@@ -360,102 +401,209 @@ public class SakaiLaunch extends GenericPortlet {
 
 	// Gallery Mode
 	// TODO: Some type of logout possibility (or perhaps not - just use edit mode)
-	if ( initType.equals("gallery") ) {
+	if ( "gallery".equals(initType) ) {
 
 	    theUrl = host + "/portal/gallery";
 	    if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
+	    debugPrint("Galery tool url="+theUrl);
 
             out.println("<iframe frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\"");
             out.println("width=\"100%\" height=\"" + theHeight + "px\"");
             out.println("src=\"" + theUrl + "\"></iframe>");
 	    return;
 	}
+
+	// Tree Mode
+	if ( "tree".equals(initType) ) {
 	
-	// Tree Mode - If we fall through - be a tree!
-	String cPath = request.getContextPath();
-        Document doc = (Document) pSession.getAttribute("site.doc");
+	  // Tree Mode - If we fall through - be a tree!
+	  String cPath = request.getContextPath();
+          Document doc = (Document) pSession.getAttribute("site.doc");
 
-	out.println("<script language=\"JavaScript\" src=\""+cPath+"/tree.js\"></script>");
-	out.println("<script language=\"JavaScript\" src=\""+cPath+"/tree_tpl_local.js\"></script>");
+	  out.println("<script language=\"JavaScript\" src=\""+cPath+"/tree.js\"></script>");
+	  out.println("<script language=\"JavaScript\" src=\""+cPath+"/tree_tpl_local.js\"></script>");
 
-	out.println("<script language=\"JavaScript\">");
-	out.println("<!--//");
-	out.println("var TREE_ITEMS = [");
+	  out.println("<script language=\"JavaScript\">");
+	  out.println("<!--//");
+	  out.println("var TREE_ITEMS = [");
 
-            NodeList children = doc.getElementsByTagName("site");
+          NodeList children = doc.getElementsByTagName("site");
 
-	    String firstUrl = null;
-            for (int i = 0; i < children.getLength(); i++) {
+	  String firstUrl = null;
+          for (int i = 0; i < children.getLength(); i++) {
 		if ( i > 0 ) out.print(",\n");
                 Element site  = (Element) children.item(i);
 
-		// Sites do not look good because there are two columns of buttons
-	        // out.print("  ['"+getTag(site ,"title")+"','"+getTag(site ,"url")+"'");
 	        out.print("  ['"+getTag(site ,"title")+"',0");
+
 		NodeList pages = site .getElementsByTagName("page");
 		if ( pages.getLength() > 0 ) out.print(",\n");
 
 		for (int j=0; j < pages.getLength(); j++ ) {
 			if ( j > 0 ) out.print(",\n");
 			Element page = (Element) pages.item(j);
-			theUrl = getTag(page ,"url");
 
-	    		if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
-
-			if ( firstUrl == null ) firstUrl = theUrl;
-
-	        	out.print("    ['"+getTag(page ,"title")+"','"+theUrl+"'");
 			NodeList tools = page.getElementsByTagName("tool");
-			if ( tools.getLength() > 1 ) {
-				out.print(",\n");
+	        	if ( tools.getLength() > 1 ) out.print("    ['"+getTag(page ,"title")+"',0,\n");
 
-				for (int k=0; k < tools.getLength();k++) {
-					if ( k > 0 ) out.print(",\n");
-					Element tool = (Element) tools.item(k);
-					theUrl = getTag(tool ,"url");
-	    				if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
-	        			out.print("      ['"+getTag(tool ,"title")+"','"+theUrl+"']");
-				}
+			for (int k=0; k < tools.getLength();k++) {
+				if ( k > 0 ) out.print(",\n");
+				Element tool = (Element) tools.item(k);
+				theUrl = getTag(tool ,"url");
+	    			if ( session != null ) theUrl = theUrl + "?sakai.session=" + 
+					URLEncoder.encode(session) + "&sakai.state.reset=true";
+				debugPrint("Tree url="+theUrl);
+				if ( firstUrl == null ) firstUrl = theUrl;
+	        		out.print("      ['"+getTag(tool ,"title")+"','"+theUrl+"']");
 			}
-			out.println("\n    ]");
+			if ( tools.getLength() > 1 ) out.println("\n    ]");
 		}
 		out.println("\n  ]");
 
             }
 
-	out.println("\n];");
-        out.println("//-->");
-	out.println("</script>");
+	  out.println("\n];");
+          out.println("//-->");
+	  out.println("</script>");
 
-	out.println("<table cellpadding=\"5\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\" width=\"100%\"><tr><td valign=top width=200>");
+	  out.println("<table cellpadding=\"5\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\" width=\"100%\"><tr><td valign=top width=200>");
 
-	out.println("<font size=-2>");
-	out.println("<script language=\"JavaScript\">");
-	out.println("<!--//");
-        out.println("     new tree (TREE_ITEMS, TREE_TPL);");
-        out.println("//-->");
-	out.println("</script>");
-	out.println("</font>");
-	out.println("</td><td>");
+	  out.println("<font size=-2>");
+	  out.println("<script language=\"JavaScript\">");
+	  out.println("<!--//");
+          out.println("     new tree (TREE_ITEMS, TREE_TPL);");
+          out.println("//-->");
+	  out.println("</script>");
+	  out.println("</font>");
+	  out.println("</td><td>");
 	
-	// TODO: Better error checking if there is nothing to show
-	if ( firstUrl == null ) firstUrl = cPath + "/blank.htm";
-	out.println("<iframe src=\""+firstUrl+"\" name=frameset width=100% height=2400 align=top>");
+	  // TODO: Better error checking if there is nothing to show
+	  if ( firstUrl == null ) firstUrl = cPath + "/blank.htm";
+	  out.println("<iframe src=\""+firstUrl+"\" name=frameset width=100% height=2400 align=top>");
 
-	out.println("</td></tr></table>");
+	  out.println("</td></tr></table>");
+	  return;
+	}
 
-/*
-	// Keep this as an example, because it can do Logout within the window
+	// Fell through - be the Launch Portlet
+	pSession.setAttribute(LAUNCH_STATE, LAUNCH_STATE_LAUNCH);
+
+        String launchState = (String) pSession.getAttribute(LAUNCH_STATE);
+	String currentSite = (String) pSession.getAttribute(CURRENT_SITE);
+	String currentSiteTitle = (String) pSession.getAttribute(CURRENT_SITE_TITLE);
+	String currentTool = (String) pSession.getAttribute(CURRENT_TOOL);
+	String currentToolTitle = (String) pSession.getAttribute(CURRENT_TOOL_TITLE);
+	String currentToolUrl = (String) pSession.getAttribute(CURRENT_TOOL_URL);
+        Document doc = (Document) pSession.getAttribute("site.doc");
+
+        debugPrint("state=" + launchState + " currentSite="+currentSite+" currentTool="+currentTool);
+        debugPrint("currentSiteTitle="+currentSiteTitle+" currentToolTitle="+currentToolTitle+" currentToolUrl="+currentToolUrl);
+
         PortletURL url = response.createActionURL();
-        out
-                .println("<table border=0 cellspacing=0 cellpadding=2 width=\"100%\"><tr>");
-        out
-                .println("<td bgcolor=\"#666699\"><font face=\"sans-serif\" color=\"#FFFFFF\" size=\"+1\">");
-        out.println("<FORM METHOD=POST ACTION=\"" + url.toString() + "\">");
-        out
-                .println("<select name=site.index onchange=\"JavaScript:submit()\">");
-        out.println("<option value=select>Select Sakai Site</option>");
-*/
+	url.setParameter("sakai.action","all.sites");
+	String className = "portlet-menu-item";
+	if ( currentSite == null ) {
+		className = "portlet-menu-item-selected";
+	}
+
+	out.println("<a class=\""+className+"\" href=\"" + url.toString() + "\">Sites</a>");
+
+	// If we are in a site
+	if ( currentSite != null ) {
+		url.setParameter("sakai.action","site");
+		if ( currentSiteTitle == null ) currentSiteTitle = currentSite;   //  WIll look Ugly!
+		if ( currentTool == null ) {
+			className = "portlet-menu-item-selected";
+		}
+		out.println(" > <a class=\""+className+"\" href=\"" + url.toString() + "\">"+currentSiteTitle+"</a>");
+
+	// If we are not in a site - print out the list of sites
+        } else {
+	  out.println("<br>");
+          NodeList children = doc.getElementsByTagName("site");
+
+          if ( children.getLength() <= 0 ) {
+		out.println("<br>&nbsp;<br>No Sites Found...<br>");
+		return;
+	  }
+
+	  out.println("<ul>");
+          for (int i = 0; i < children.getLength(); i++) {
+                Element site  = (Element) children.item(i);
+                url.setParameter("sakai.action","switch.site");
+		url.setParameter("new.site",getTag(site,"id"));
+	        out.print("<li><a  href=\"" + url.toString() + "\">"+getTag(site ,"title")+"</a>");
+            }
+	    out.println("</ul>");
+	    return;
+	}
+
+	// If we are in a tool
+	if ( currentTool != null ) {
+		url.setParameter("sakai.action","tool");
+		if ( currentToolTitle == null ) currentToolTitle = currentTool;   //  Will look Ugly!
+		out.println(" > <a class=\"portlet-menu-item-selected\" href=\"" + url.toString() + "\">"+currentToolTitle+"</a>");
+		// TODO - Add Help Here someday - need to add it to the DOM :)
+		// TODO - Emit iFrame here
+		out.println("<br>");
+
+		theUrl = currentToolUrl;
+	    	if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
+
+		String windowID = "Main" + currentTool.replace("-","x");
+
+		out.println("<iframe name=\""+windowID+"\" id=\""+windowID+"\"");
+		out.println("  title=\""+currentToolTitle+"\" class =\"portletMainIframe\" height=\"50\" width=\"100%\"");
+		out.println("  frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\" ");
+		out.println("  src=\""+theUrl+"&sakai.state.reset=true\">");
+		out.println("</iframe>");
+		return;
+
+	// If we are not in a tool, list all the tools in the current site
+	} else {
+          NodeList children = doc.getElementsByTagName("site");
+
+          if ( children.getLength() <= 0 ) {
+		out.println("<br>&nbsp;<br>No Sites Found...<br>");
+		return;
+	  }
+
+          for (int i = 0; i < children.getLength(); i++) {
+                Element site  = (Element) children.item(i);
+		if ( ! currentSite.equals(getTag(site,"id")) ) continue;
+
+		NodeList pages = site .getElementsByTagName("page");
+
+		if ( pages.getLength() > 0 ) out.println("<ul>");
+
+		for (int j=0; j < pages.getLength(); j++ ) {
+			Element page = (Element) pages.item(j);
+
+			NodeList tools = page.getElementsByTagName("tool");
+	        	if ( tools.getLength() > 1 ) {
+				out.println("<li>"+getTag(page ,"title"));
+				out.println("<ul>");
+			}
+
+			for (int k=0; k < tools.getLength();k++) {
+				Element tool = (Element) tools.item(k);
+                		url.setParameter("sakai.action","select.tool");
+				url.setParameter("new.tool",getTag(tool,"id"));
+				out.println("<li><a href=\""+url.toString()+"\">"+getTag(tool,"title")+"</a>");
+			} // Tools Loop
+
+			if ( tools.getLength() > 1 ) out.println("</ul>");
+
+		} // Pages Loop
+
+	    	if ( pages.getLength() > 0 ) out.println("</ul>");
+		break;  // We found our site
+            } // Sites loop
+
+	    return;
+        }
+	
+
     }
 
     public int addToolList(RenderRequest request, List siteList)
@@ -507,7 +655,7 @@ public class SakaiLaunch extends GenericPortlet {
         if (initHost != null && initSecret != null) {
             request.setAttribute("do.auto", "yes");
             String sakaiAuto = prefs.getValue("sakai.auto", "0");
-            if (sakaiAuto != null && sakaiAuto.equals("1")) {
+            if (sakaiAuto != null && "1".equals(sakaiAuto)) {
                 request.setAttribute("sakai.auto", "yes");
             }
         }
@@ -527,23 +675,26 @@ public class SakaiLaunch extends GenericPortlet {
         String launchState = (String) pSession.getAttribute(LAUNCH_STATE);
         pSession.removeAttribute(LAUNCH_STATE);
 
-        // System.out.println("processAction mode=" + request.getPortletMode());
-        // System.out.println("state = " + launchState);
+        debugPrint("processAction mode=" + request.getPortletMode()+" state=" + launchState);
 
-        if (request.getPortletMode().equals(PortletMode.VIEW)) {
-            if (launchState != null && launchState.equals(LAUNCH_STATE_LOGIN)) {
+        if (PortletMode.VIEW.equals(request.getPortletMode())) {
+            if (LAUNCH_STATE_LOGIN.equals(launchState)) {
                 processActionLogin(request, response);
                 return;
             }
-            if (launchState != null && launchState.equals(LAUNCH_STATE_MAIN)) {
+            if (LAUNCH_STATE_MAIN.equals(launchState)) {
                 processActionMain(request, response);
                 return;
             }
-            if (launchState != null && launchState.equals(LAUNCH_STATE_SELECT)) {
+            if (LAUNCH_STATE_SELECT.equals(launchState)) {
                 processActionSelect(request, response);
                 return;
             }
-        } else if (request.getPortletMode().equals(PortletMode.EDIT)) {
+            if (LAUNCH_STATE_LAUNCH.equals(launchState)) {
+                processActionLaunch(request, response);
+                return;
+            }
+        } else if (PortletMode.EDIT.equals(request.getPortletMode())) {
             boolean editOK;
             pSession.removeAttribute("site.list");
             pSession.removeAttribute("sakai.session");
@@ -592,10 +743,8 @@ public class SakaiLaunch extends GenericPortlet {
 
         List allSites = loadSiteList(request, sakaiHost, sakaiId, sakaiPw,
                 false);
+
         String errorStr = (String) pSession.getAttribute("error");
-
-        // System.out.println("Error from load=" + errorStr);
-
         if (errorStr != null) {
             response.setRenderParameter("error", errorStr);
         }
@@ -642,7 +791,7 @@ public class SakaiLaunch extends GenericPortlet {
             throws PortletException, IOException {
         PortletSession pSession = request.getPortletSession(true);
         String strIndex = request.getParameter("site.index");
-        if (strIndex.equals("logout")) {
+        if ("logout".equals(strIndex)) {
             pSession.removeAttribute("site.list");
             pSession.removeAttribute("site.index");
             pSession.removeAttribute("sakai.placement"); 
@@ -652,66 +801,229 @@ public class SakaiLaunch extends GenericPortlet {
         System.out.println("PAM index=" + strIndex);
     }
 
+    // ProcessActions for the Launch Portlet
+
+    // Coming from the Site list  display
+    public void processActionLaunch(ActionRequest request, ActionResponse response)
+            throws PortletException, IOException {
+
+        PortletSession pSession = request.getPortletSession();
+        pSession.setAttribute(LAUNCH_STATE, LAUNCH_STATE_LAUNCH);
+
+        String action = request.getParameter("sakai.action");
+        String newSite = request.getParameter("new.site");
+        String nt = request.getParameter("new.tool");
+	debugPrint("action="+action+" newSite="+newSite+" nt="+nt);
+
+	if ( "tool".equals(action) ) {
+		System.out.println("Need to handle Reset Tool!");
+		return;
+	}
+
+        Document doc = (Document) pSession.getAttribute("site.doc");
+
+	if ( doc == null ) {
+		debugPrint("processActionLaunch switch.site - Sites dom tree missing");
+		return;	
+	}
+
+        NodeList children = doc.getElementsByTagName("site");
+
+        if ( children.getLength() <= 0 ) {
+	 	debugPrint("<br>&nbsp;<br>No Sites Found...<br>");
+	 	return;
+         }
+
+	// From here we need no tool, or a need to find new tool
+        pSession.removeAttribute(CURRENT_TOOL);
+        pSession.removeAttribute(CURRENT_TOOL_TITLE);
+        pSession.removeAttribute(CURRENT_TOOL_URL);
+
+	// Handle the "leave a tool and go back to a site"
+	if ( "site".equals(action) ) return;  // Tool has been cleared
+
+	// Handle the Tool Case
+	if ( "select.tool".equalsIgnoreCase(action) && nt != null ) {
+
+	  // Loop through pages and sites and tools, looking for "the one"
+	  boolean found = false;
+          for (int i = 0; i < children.getLength(); i++) {
+                Element site  = (Element) children.item(i);
+		NodeList pages = site .getElementsByTagName("page");
+		for (int j=0; j < pages.getLength(); j++ ) {
+			Element page = (Element) pages.item(j);
+			NodeList tools = page.getElementsByTagName("tool");
+
+			for (int k=0; k < tools.getLength();k++) {
+				Element tool = (Element) tools.item(k);
+				if ( nt.equals(getTag(tool,"id")) ) {
+					found = true;
+					debugPrint("Tool Found! nt="+nt);
+        				pSession.setAttribute(CURRENT_TOOL, nt);
+        				pSession.setAttribute(CURRENT_TOOL_URL, getTag(tool,"url"));
+        				pSession.setAttribute(CURRENT_TOOL_TITLE, getTag(tool,"title"));
+					break;
+				}
+			} // Tools Loop
+			if ( found ) break;
+		} // Pages Loop
+		if ( found ) break;
+            } // Sites loop
+	    return;
+	}
+
+	// From here on, we need no existing site - we either clear it or reset it
+        pSession.removeAttribute(CURRENT_SITE);
+        pSession.removeAttribute(CURRENT_SITE_TITLE);
+
+	// Force the reloading of the sitet list
+	if ( "all.sites".equalsIgnoreCase(action) ) {
+		pSession.removeAttribute("site.list");
+		pSession.removeAttribute("auto.done");
+		// Leave session alone - no need to relogin
+		// pSession.removeAttribute("sakai.session");
+		debugPrint("Cleared Attributes");
+		return;  // All clear - to the top we go
+        }
+
+	// Search through and find the new site
+	if ( "switch.site".equalsIgnoreCase(action) ) {
+
+	  if ( newSite == null ) {
+		debugPrint("processActionLaunch switch.site - new.site not specified");
+		return;
+	  }
+
+	  boolean found = false;
+          for (int i = 0; i < children.getLength(); i++) {
+                Element site  = (Element) children.item(i);
+		String siteId = getTag(site,"id");
+		debugPrint("newSite="+newSite+" id="+siteId);
+		if ( siteId == null ) continue;
+		if ( siteId.equals(newSite) ) {
+			found = true;
+			debugPrint("found it newSite="+newSite);
+        		pSession.setAttribute(CURRENT_SITE,newSite);
+        		pSession.setAttribute(CURRENT_SITE_TITLE,getTag(site ,"title"));
+			break;
+		}
+            }
+	    if ( !found ) debugPrint("processActionLaunch switch.site - site not found id="+newSite);
+	    return;
+        }
+
+
+    }
+   
     public List loadSiteList(PortletRequest request, String sakaiHost,
             String sakaiId, String sakaiPw, boolean doAuto) {
-        // System.out.println("loadSiteList host=" + sakaiHost + " id=" + sakaiId + " pw=" + sakaiPw + " auto=" + doAuto);
 
         PortletSession pSession = request.getPortletSession();
         String endpoint;
         String session = null;
         String siteList = null;
+	Service service = null;
+	Call call = null;
+        String axisPoint = sakaiHost + "/sakai-axis/";
+
+        debugPrint("loadSiteList host=" + sakaiHost + " id=" + sakaiId + " pw=" + sakaiPw + " auto=" + doAuto);
+	debugPrint("  session="+pSession.getAttribute("sakai.session")+
+                    " host="+pSession.getAttribute("sakai.host")+
+                    " user="+pSession.getAttribute("sakai.user")+
+                    " placement="+pSession.getAttribute("sakai.placement") );
 
         try {
-            pSession.removeAttribute("site.list");
-            pSession.removeAttribute("sakai.session");
+
             pSession.removeAttribute("error");
-            pSession.removeAttribute("sakai.host");
-	    // Do not remove this so we don't keep forcing re-choosing
-            // pSession.removeAttribute("sakai.placement"); 
+	    
+            session = (String) pSession.getAttribute("sakai.session");
 
-            String axisPoint = sakaiHost + "/sakai-axis/";
+	    // Make sure this session is still active and alive - if for any reason we cannot validate
+	    // Including a pre-revision 14063 SakaiSession.jws, we just whack the session.
 
-            Service service = new Service();
-            Call call = (Call) service.createCall();
-
-            // Get user's information
-            String firstName = pUser.getFirstName(request);
-            String lastName = pUser.getLastName(request);
-            String email = pUser.getEmail(request);
-
-	    //HACK FOR DEMO
-	    if ( sakaiId.equals("tomcat") && firstName == null ) {
-		firstName = "Tom";
-		lastName = "Cat";
-		email = "tom@cat.com";
+	    try {
+	      	if ( session != null ) {
+                	service = new Service();
+                	call = (Call) service.createCall();
+  
+                	endpoint = axisPoint + "SakaiSession.jws";
+                	debugPrint("Checking session" + endpoint);
+                	call.setOperationName("getSessionUser");
+                	call.setTargetEndpointAddress(new java.net.URL(endpoint));
+                	String sessionUser = (String) call.invoke(new Object[] { session });
+	        	if ( ! sakaiId.equals(sessionUser) ) {
+		   		debugPrint("Session user="+sessionUser+" does not match id="+sakaiId);
+		   		session = null;
+	        	}
+	      	}
+	    } catch (Exception e) {
+		   // We really, literally, absolutely do not care why this failed
+		   session = null;
 	    }
 
-            // System.out.println("firstname=" + firstName + ", lastName=" + lastName + ", email=" + email);
+	    // If we have changed hosts or users or have no session or have no site list - wipe it all out 
+	    // Also since the site.list is *not* serializable, it is a cheating way to work
+            // around insanity in Tomcat maintaining sessions over restart.  If there is a site.list
+	    // We put it there in this session :)
+            if ( ( ! sakaiId.equals(pSession.getAttribute("sakai.user")) )  ||
+		 ( ! sakaiHost.equals(pSession.getAttribute("sakai.host")) ) ||
+		 ( pSession.getAttribute("site.list") == null ) ||
+		 ( session  == null ) ) {
+            	pSession.removeAttribute("sakai.session");
+            	pSession.removeAttribute("sakai.host");
+            	pSession.removeAttribute("sakai.user");
+		// May not want to remove this to force reChoosing
+                // pSession.removeAttribute("sakai.placement"); 
+           }
 
-            if (doAuto && email != null && firstName != null
-                    && lastName != null) {
-                endpoint = axisPoint + "SakaiPortalLogin.jws";
-                System.out.println("Portal Login and Create " + endpoint);
-                call.setOperationName("loginAndCreate");
-                call.setTargetEndpointAddress(new java.net.URL(endpoint));
-                session = (String) call.invoke(new Object[] { sakaiId, sakaiPw,
-                        firstName, lastName, email });
-            } else if ( doAuto ) {
-                    endpoint = axisPoint + "SakaiPortalLogin.jws";
-                    System.out.println("Portal Login " + endpoint);
-                    call.setOperationName("login");
-                    call.setTargetEndpointAddress(new java.net.URL(endpoint));
-                    session = (String) call.invoke(new Object[] { sakaiId, sakaiPw });
-            } else {
-                endpoint = axisPoint + "SakaiLogin.jws";
-                call.setOperationName("login");
-                call.setTargetEndpointAddress(new java.net.URL(endpoint));
-                session = (String) call
-                        .invoke(new Object[] { sakaiId, sakaiPw });
-            }
+	    // Remove the old one in case something fails
+            pSession.removeAttribute("site.list");
 
-            // System.out.println("Login successful...");
+	    // Must establish or have a session - Someday might want to validate session
+	    // each time over web services before simply accepting it.
+	    if ( session == null ) {
+	    
+              service = new Service();
+              call = (Call) service.createCall();
 
+              // Get user's information
+              String firstName = pUser.getFirstName(request);
+              String lastName = pUser.getLastName(request);
+              String email = pUser.getEmail(request);
+
+	      //HACK FOR DEMO
+	      if ( "tomcat".equals(sakaiId) && firstName == null ) {
+		  firstName = "Tom";
+		  lastName = "Cat";
+		  email = "tom@cat.com";
+	      }
+
+              // System.out.println("firstname=" + firstName + ", lastName=" + lastName + ", email=" + email);
+
+              if (doAuto && email != null && firstName != null
+                      && lastName != null) {
+                  endpoint = axisPoint + "SakaiPortalLogin.jws";
+                  debugPrint("Portal Login and Create " + endpoint + " id="+sakaiId+" pw="+sakaiPw);
+                  call.setOperationName("loginAndCreate");
+                  call.setTargetEndpointAddress(new java.net.URL(endpoint));
+                  session = (String) call.invoke(new Object[] { sakaiId, sakaiPw,
+                          firstName, lastName, email });
+              } else if ( doAuto ) {
+                      endpoint = axisPoint + "SakaiPortalLogin.jws";
+                      debugPrint("Portal Login " + endpoint+ " id="+sakaiId+" pw="+sakaiPw);
+                      call.setOperationName("login");
+                      call.setTargetEndpointAddress(new java.net.URL(endpoint));
+                      session = (String) call.invoke(new Object[] { sakaiId, sakaiPw });
+              } else {
+                  endpoint = axisPoint + "SakaiLogin.jws";
+                  debugPrint("Web Services Login " + endpoint + " id="+sakaiId+" pw="+sakaiPw);
+                  call.setOperationName("login");
+                  call.setTargetEndpointAddress(new java.net.URL(endpoint));
+                  session = (String) call
+                          .invoke(new Object[] { sakaiId, sakaiPw });
+              }
+	    }  // End establishing Session
+  
             if (session == null || session.length() < 2) {
                 System.out.println("Unable to establish session to "
                         + sakaiHost);
@@ -720,22 +1032,32 @@ public class SakaiLaunch extends GenericPortlet {
                 return null;
             }
 
+            debugPrint("Login successful session="+session+" id="+sakaiId+" host="+sakaiHost);
+            pSession.setAttribute("sakai.session", session);
+	    pSession.setAttribute("sakai.user", sakaiId);
+            pSession.setAttribute("sakai.host", sakaiHost);
+
+	    // Retrieve Site List
             service = new Service();
             call = (Call) service.createCall();
 
-            call.setTargetEndpointAddress(new java.net.URL(axisPoint
-                    + "SakaiSite.jws"));
+	    endpoint = axisPoint + "SakaiSite.jws";
+
+	    debugPrint("Site Retrieval " + endpoint+ " session="+session);
+
+            call.setTargetEndpointAddress(new java.net.URL(endpoint));
             call.setOperationName("getToolsDom");
 
             siteList = (String) call.invoke(new Object[] { session, "",
                     new Integer(1), new Integer(9999) });
 
+	    debugPrint(siteList);
             Document doc = Xml.readDocumentFromString(siteList);
 
             pSession.setAttribute("site.doc", doc);
 
             NodeList children = doc.getElementsByTagName("site");
-            // System.out.println("There are " + children.getLength() + " child elements.\n");
+            // debugPrint("There are " + children.getLength() + " child elements.\n");
 
             if (children.getLength() < 1) {
                 pSession.setAttribute("error", "No sites available to you on "
@@ -786,8 +1108,7 @@ public class SakaiLaunch extends GenericPortlet {
             }
 
             pSession.setAttribute("site.list", allSites);
-            pSession.setAttribute("sakai.session", session);
-            pSession.setAttribute("sakai.host", sakaiHost);
+	    debugPrint("Adding to session site.list="+allSites+" sakai.session="+session+" sakai.host="+sakaiHost);
             return allSites;
 
         } catch (Exception e) {

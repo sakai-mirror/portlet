@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004 The Apache Software Foundation.
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<pluto-portal-driver
+    xmlns="http://portals.apache.org/pluto/xsd/pluto-portal-driver-config.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://portals.apache.org/pluto/xsd/pluto-portal-driver-config.xsd
+                        http://portals.apache.org/pluto/xsd/pluto-portal-driver-config.xsd"
+    version="1.1">
+
+  <portal-name>pluto-portal-driver</portal-name>
+  <portal-version>1.1.0-dev</portal-version>
+  <container-name>Pluto Portal Driver</container-name>
+
+  <supports>
+    <portlet-mode>view</portlet-mode>
+    <portlet-mode>edit</portlet-mode>
+    <portlet-mode>help</portlet-mode>
+    <portlet-mode>config</portlet-mode>
+
+    <window-state>normal</window-state>
+    <window-state>maximized</window-state>
+    <window-state>minimized</window-state>
+  </supports>
+  
+  <portlet-app>
+    <context-path>/pluto</context-path>
+    <portlets>
+      <portlet name="AboutPortlet"/>
+      <portlet name="AdminPortlet"/>
+    </portlets>
+  </portlet-app>
+  
+  <portlet-app>
+    <context-path>/testsuite</context-path>
+    <portlets>
+      <portlet name="TestPortlet1"/>
+      <portlet name="TestPortlet2"/>
+    </portlets>
+  </portlet-app>
+
+  <portlet-app>
+    <context-path>/sakai-portlets</context-path>
+    <portlets>
+      <portlet name="SakaiGallery"/>
+      <portlet name="SakaiLaunch"/>
+      <portlet name="SakaiTree"/>
+      <portlet name="sakai.announcements"/>
+      <portlet name="sakai.assignment"/>
+      <portlet name="sakai.chat"/>
+      <portlet name="sakai.discussion"/>
+      <portlet name="sakai.gradebook.tool"/>
+      <portlet name="sakai.mailbox"/>
+      <portlet name="sakai.membership"/>
+      <portlet name="sakai.messageforums"/>
+      <portlet name="sakai.preferences"/>
+      <portlet name="sakai.presentation"/>
+      <portlet name="sakai.profile"/>
+      <portlet name="sakai.resources"/>
+      <portlet name="sakai.rwiki"/>
+      <portlet name="sakai.samigo"/>
+      <portlet name="sakai.site.roster"/>
+      <portlet name="sakai.schedule"/>
+      <portlet name="sakai.siteinfo"/>
+      <portlet name="sakai.syllabus"/>
+    </portlets>
+  </portlet-app>
+  
+  <!-- Render configuration which defines the portal pages. -->
+  <render-config default="Test Page">
+    <page name="Test Page" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/testsuite" name="TestPortlet1"/>
+      <portlet context="/testsuite" name="TestPortlet2"/>
+    </page>
+    <page name="Secondary Page" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/testsuite" name="TestPortlet1"/>
+      <portlet context="/testsuite" name="TestPortlet2"/>
+    </page>
+    <page name="About Pluto" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/pluto" name="AboutPortlet"/>
+    </page>
+    <page name="Pluto Admin" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/pluto" name="AdminPortlet"/>
+    </page>
+
+    <page name="SakaiGallery" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="SakaiGallery"/>
+    </page>
+    <page name="SakaiLaunch" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="SakaiLaunch"/>
+    </page>
+    <page name="SakaiTree" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="SakaiTree"/>
+    </page>
+    <page name="sakai.announcements" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.announcements"/>
+    </page>
+    <page name="sakai.assignment" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.assignment"/>
+    </page>
+    <page name="sakai.chat" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.chat"/>
+    </page>
+    <page name="sakai.discussion" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.discussion"/>
+    </page>
+    <page name="sakai.gradebook.tool" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.gradebook.tool"/>
+    </page>
+    <page name="sakai.mailbox" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.mailbox"/>
+    </page>
+    <page name="sakai.membership" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.membership"/>
+    </page>
+    <page name="sakai.messageforums" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.messageforums"/>
+    </page>
+    <page name="sakai.preferences" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.preferences"/>
+    </page>
+    <page name="sakai.presentation" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.presentation"/>
+    </page>
+    <page name="sakai.profile" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.profile"/>
+    </page>
+    <page name="sakai.resources" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.resources"/>
+    </page>
+    <page name="sakai.rwiki" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.rwiki"/>
+    </page>
+    <page name="sakai.samigo" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.samigo"/>
+    </page>
+    <page name="sakai.site.roster" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.site.roster"/>
+    </page>
+    <page name="sakai.schedule" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.schedule"/>
+    </page>
+    <page name="sakai.siteinfo" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.siteinfo"/>
+    </page>
+    <page name="sakai.syllabus" uri="/WEB-INF/themes/pluto-default-theme.jsp">
+      <portlet context="/sakai-portlets" name="sakai.syllabus"/>
+    </page>
+
+  </render-config>
+  
+</pluto-portal-driver>
+
+

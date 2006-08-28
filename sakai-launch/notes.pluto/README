@@ -6,10 +6,34 @@ svn checkout https://svn.apache.org/repos/asf/portals/pluto/trunk/ pluto
 Make sure ~/build.properties is correct.
 
   maven.repo.remote = http://cvs.sakaiproject.org/maven,http://www.ibiblio.org/maven
-  maven.tomcat.home = /Users/csev/dev/jakarta-tomcat-5.5.9
+  maven.tomcat.home = /Users/csev/dev/apache-tomcat-5.5.17
   maven.tomcat.version.major=5
 
 maven fullDeployment
+
+Go into cd ~/dev/sakai/portlet/sakai-launch/src/webapp/WEB-INF
+-rw-r--r--   1 csev  csev   2613 Aug 27 18:44 makeweb.csh
+-rw-r--r--   1 csev  csev  26633 Aug 26 17:47 portlet.xml
+-rw-r--r--   1 csev  csev  15361 Aug 27 14:07 web-pluto-1-0.xml
+-rw-r--r--   1 csev  csev  10178 Aug 27 14:06 web-pluto-1-1.xml
+-rw-r--r--   1 csev  csev  10178 Aug 27 14:08 web.xml
+
+Make sure that the web.xml is the pluto-1.0 web.xml - the makeweb.csh parses the portlet.xml
+genrates text for web.xml and pluto-portal-driver-config.xml depending on the parameter used.
+This is only needed when a new portlet is added to portlet.xml - otherwise - for now just pick
+the right web.xml's.
+
+The stock web.xml should probably be very empty - not have any of the configuration for 
+pluto-1.1 or pluto-1.0 - that way, we produce a non-demonimnational war that can be munged
+by the portal's installer.
+
+But since we are making and placing the war directly - we need the crud already added.
+
+Someday I might make it so that there is maven variable that puts the right web.xml into target
+as part of the maven operation.
+
+You might want to edit 
+~/dev/sakai/portlet/sakai-launch/src/webapp/WEB-INF/classes/org/sakaiproject/portlets/sakaiportlet.properties
 
 Come into this directory and do 
 
@@ -24,7 +48,12 @@ Edit the Pluto configuration files
 These files go into TOMCAT_HOME/webapps/pluto/WEB-INF/data - make sure to do diffs and 
 properly apply the changes as things may shift.  How I did it :)
 
-    cp *.* ~/dev/jakarta-tomcat-5.5.9/webapps/pluto/WEB-INF/data/
+    cp *.* ~/dev/apache-tomcat-5.5.17/webapps/pluto/WEB-INF/data/
+
+Fix up the properties to enable web services.
+
+mkdir ~/dev/apache-tomcat-5.5.17/sakai
+cp sakai.properties ~/dev/apache-tomcat-5.5.17/sakai
 
 Start Tomcat in the normal way.
 
@@ -35,5 +64,5 @@ References:
 http://portals.apache.org/pluto/userguide/portal.html
 
 /Chuck Severance
-Sun Aug  7 20:54:55 EDT 2005
+Sun Aug 27 19:25:52 EDT 2006
 

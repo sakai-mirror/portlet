@@ -73,10 +73,52 @@ limitations under the License.
 
     </fragment>
 
+    <fragment name="SakaiLaunch" type="page">
+        <navigation>
+            <title>Sakai Launch</title>
+            <description>Includes Sakai in a JSR-168 portlet.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="7.1"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
     <fragment name="SakaiGallery" type="page">
         <navigation>
             <title>Sakai Gallery</title>
             <description>Includes Sakai in a JSR-168 portlet.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="7.2"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="SakaiTree" type="page">
+        <navigation>
+            <title>Sakai Tree</title>
+            <description>Renders a tree view of Sakai sites navigation.</description>
+        </navigation>
+        <fragment name="row" type="row">
+           <fragment name="col1" type="column">
+               <fragment name="p1" type="portlet">
+                   <property name="portlet" value="7.3"/>
+               </fragment>
+           </fragment>
+        </fragment>
+    </fragment>
+
+    <fragment name="Frag.Syllabus" type="page">
+        <navigation>
+            <title>Sakai Syllabus</title>
+            <description>Places a Sakai Syllabus.</description>
         </navigation>
         <fragment name="row" type="row">
            <fragment name="col1" type="column">
@@ -87,10 +129,10 @@ limitations under the License.
         </fragment>
     </fragment>
 
-    <fragment name="SakaiTree" type="page">
+    <fragment name="Frag.Site" type="page">
         <navigation>
-            <title>Sakai Tree</title>
-            <description>Renders a tree view of Sakai sites navigation.</description>
+            <title>Sakai Site</title>
+            <description>Places a Sakai Site.</description>
         </navigation>
         <fragment name="row" type="row">
            <fragment name="col1" type="column">
@@ -325,32 +367,6 @@ limitations under the License.
         </fragment>
     </fragment>
 
-    <fragment name="Frag.Site" type="page">
-        <navigation>
-            <title>Sakai Site</title>
-            <description>Places a Sakai Site.</description>
-        </navigation>
-        <fragment name="row" type="row">
-           <fragment name="col1" type="column">
-               <fragment name="p1" type="portlet">
-                   <property name="portlet" value="7.1"/>
-               </fragment>
-           </fragment>
-        </fragment>
-    </fragment>
 
-    <fragment name="Frag.Syllabus" type="page">
-        <navigation>
-            <title>Sakai Syllabus</title>
-            <description>Places a Sakai Syllabus.</description>
-        </navigation>
-        <fragment name="row" type="row">
-           <fragment name="col1" type="column">
-               <fragment name="p1" type="portlet">
-                   <property name="portlet" value="7.2"/>
-               </fragment>
-           </fragment>
-        </fragment>
-    </fragment>
 
 </portal>

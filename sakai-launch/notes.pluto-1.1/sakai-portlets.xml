@@ -1,0 +1,2 @@
+<Context path="sakai-portlets" docBase="sakai-portlets.war" 
+crossContext="true" Manager=""></Context>

@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+                         "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <display-name>Sakai Launch Portlet</display-name>
+
+<!-- Start of auto-generated  servlet entries -->
+<!--  csh makeweb.csh pluto-1.1 -->
+ 
+  <servlet>
+    <servlet-name>SakaiGallery</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>SakaiGallery</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>SakaiLaunch</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>SakaiLaunch</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>SakaiTree</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>SakaiTree</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.announcements</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.announcements</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.assignment</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.assignment</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.chat</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.chat</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.discussion</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.discussion</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.gradebook.tool</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.gradebook.tool</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.mailbox</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.mailbox</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.membership</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.membership</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.messageforums</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.messageforums</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.preferences</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.preferences</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.presentation</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.presentation</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.profile</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.profile</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.resources</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.resources</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.rwiki</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.rwiki</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.samigo</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.samigo</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.site.roster</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.site.roster</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.schedule</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.schedule</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.siteinfo</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.siteinfo</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>sakai.syllabus</servlet-name>
+    <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
+    <init-param>
+    <param-name>portlet-name</param-name>
+    <param-value>sakai.syllabus</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet-mapping>
+      <servlet-name>SakaiGallery</servlet-name>
+      <url-pattern>/PlutoInvoker/SakaiGallery</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>SakaiLaunch</servlet-name>
+      <url-pattern>/PlutoInvoker/SakaiLaunch</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>SakaiTree</servlet-name>
+      <url-pattern>/PlutoInvoker/SakaiTree</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.announcements</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.announcements</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.assignment</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.assignment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.chat</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.chat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.discussion</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.discussion</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.gradebook.tool</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.gradebook.tool</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.mailbox</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.mailbox</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.membership</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.membership</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.messageforums</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.messageforums</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.preferences</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.preferences</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.presentation</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.presentation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.profile</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.profile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.resources</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.resources</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.rwiki</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.rwiki</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.samigo</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.samigo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.site.roster</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.site.roster</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.schedule</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.schedule</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.siteinfo</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.siteinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>sakai.syllabus</servlet-name>
+      <url-pattern>/PlutoInvoker/sakai.syllabus</url-pattern>
+  </servlet-mapping>
+
+<!-- End of auto-generated  servlet entries -->
+
+</web-app>
