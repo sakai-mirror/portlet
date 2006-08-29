@@ -44,7 +44,11 @@ public class PortalUser {
 
     public static final int UPORTAL = 2;
 
+    public static final int ORACLEPORTAL = 3;
+
     private int portalType;
+
+    private boolean doDebug = true;
 
     public PortalUser(int portalType) {
         this.portalType = portalType;
@@ -60,12 +64,24 @@ public class PortalUser {
                 username = (String) userInfo.get("user.name");
             }
             break;
+         case ORACLEPORTAL:
+            //System.out.println("userInfo" + userInfo); // Changes by Venkatesh for Oracle Portal
+            //System.out.println("Remote User=" + username); // Oracle portal is populating user name with [1] at the end
+            // the following code will get rid of the unnecessary characters
+            username = request.getRemoteUser();
+            if(username != null && username.indexOf("[") != -1)
+            {
+                if ( doDebug ) System.out.println("Modifying user name for Oracle Portal=" + username);
+         	int corruptIndex = username.indexOf('[');
+         	username = username.substring(0,corruptIndex);
+            }
+	    break;
         case UNKNOWN:  
         case UPORTAL:
             username = request.getRemoteUser();
             break;
         }
-        // System.out.println("Remote User=" + username);
+        if ( doDebug) System.out.println("Remote User=" + username);
         return username;
     }
 
@@ -90,6 +106,7 @@ public class PortalUser {
             }
             break;
         }
+	if ( doDebug ) System.out.println("First Name="+firstName);
         return firstName;
     }
 
@@ -109,6 +126,7 @@ public class PortalUser {
             }
             break;
         }
+	if ( doDebug ) System.out.println("Last Name="+lastName);
         return lastName;
     }
 
@@ -129,6 +147,7 @@ public class PortalUser {
             }
         }
 
+	if ( doDebug ) System.out.println("EMail="+email);
         return email;
     }
 

@@ -192,6 +192,8 @@ public class SakaiLaunch extends GenericPortlet {
             pUser = new PortalUser(PortalUser.GRIDSPHERE);
         } else if (portalType.equalsIgnoreCase("uportal")) {
             pUser = new PortalUser(PortalUser.UPORTAL);
+	} else if (portalType.equalsIgnoreCase("oracle")) {
+	    pUser = new PortalUser(PortalUser.ORACLEPORTAL);
 	} else {
             pUser = new PortalUser(PortalUser.UNKNOWN);
         }
