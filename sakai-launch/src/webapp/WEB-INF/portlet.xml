@@ -99,7 +99,7 @@
 
 
     <portlet>
-        <portlet-name>sakai.announcements</portlet-name>
+        <portlet-name>sakai_announcements</portlet-name>
         <display-name xml:lang="en">Sakai Announcements Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -125,7 +125,7 @@
     </portlet>
 
    <portlet>
-        <portlet-name>sakai.assignment</portlet-name>
+        <portlet-name>sakai_assignment</portlet-name>
         <display-name xml:lang="en">Sakai Assignments Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -151,7 +151,7 @@
 
 
    <portlet>
-        <portlet-name>sakai.chat</portlet-name>
+        <portlet-name>sakai_chat</portlet-name>
         <display-name xml:lang="en">Sakai Chat Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -177,7 +177,7 @@
 
 
    <portlet>
-        <portlet-name>sakai.discussion</portlet-name>
+        <portlet-name>sakai_discussion</portlet-name>
         <display-name xml:lang="en">Sakai Discussion Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -202,7 +202,7 @@
     </portlet>
 
    <portlet>
-        <portlet-name>sakai.gradebook.tool</portlet-name>
+        <portlet-name>sakai_gradebook_tool</portlet-name>
         <display-name xml:lang="en">Sakai Gradebook Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -227,7 +227,7 @@
     </portlet>
 
    <portlet>
-        <portlet-name>sakai.mailbox</portlet-name>
+        <portlet-name>sakai_mailbox</portlet-name>
         <display-name xml:lang="en">Sakai Mail Archive Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -253,7 +253,7 @@
 
 
   <portlet>
-        <portlet-name>sakai.membership</portlet-name>
+        <portlet-name>sakai_membership</portlet-name>
         <display-name xml:lang="en">Sakai Membership Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -279,7 +279,7 @@
 
 
   <portlet>
-        <portlet-name>sakai.messageforums</portlet-name>
+        <portlet-name>sakai_messageforums</portlet-name>
         <display-name xml:lang="en">Sakai Message Forums Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -304,7 +304,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.preferences</portlet-name>
+        <portlet-name>sakai_preferences</portlet-name>
         <display-name xml:lang="en">Sakai Preferences Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -329,7 +329,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.presentation</portlet-name>
+        <portlet-name>sakai_presentation</portlet-name>
         <display-name xml:lang="en">Sakai Presentation Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -355,7 +355,7 @@
 
 
   <portlet>
-        <portlet-name>sakai.profile</portlet-name>
+        <portlet-name>sakai_profile</portlet-name>
         <display-name xml:lang="en">Sakai Profile Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -380,7 +380,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.resources</portlet-name>
+        <portlet-name>sakai_resources</portlet-name>
         <display-name xml:lang="en">Sakai Resources Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -405,7 +405,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.rwiki</portlet-name>
+        <portlet-name>sakai_rwiki</portlet-name>
         <display-name xml:lang="en">Sakai Wiki Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -430,7 +430,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.samigo</portlet-name>
+        <portlet-name>sakai_samigo</portlet-name>
         <display-name xml:lang="en">Sakai Assessment Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -455,7 +455,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.site.roster</portlet-name>
+        <portlet-name>sakai_site_roster</portlet-name>
         <display-name xml:lang="en">Sakai Roster Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -480,7 +480,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>sakai.schedule</portlet-name>
+        <portlet-name>sakai_schedule</portlet-name>
         <display-name xml:lang="en">Sakai Calendar Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -506,7 +506,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.siteinfo</portlet-name>
+        <portlet-name>sakai_siteinfo</portlet-name>
         <display-name xml:lang="en">Sakai Site Info Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
@@ -531,7 +531,7 @@
     </portlet>
 
   <portlet>
-        <portlet-name>sakai.syllabus</portlet-name>
+        <portlet-name>sakai_syllabus</portlet-name>
         <display-name xml:lang="en">Sakai Syllabus Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
