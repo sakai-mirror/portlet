@@ -4,15 +4,14 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
         version="1.0">
 
-    <!-- Make sure the portlet name tags are all on one line so the makeweb.csh script works -->
     <portlet>
-        <portlet-name>SakaiGallery</portlet-name>
-        <display-name xml:lang="en">Sakai Gallery Portlet</display-name>
+        <portlet-name>SakaiLaunch</portlet-name>
+        <display-name xml:lang="en">Sakai Launch Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
        <init-param>
             <name>sakai.tool</name>
-            <value>gallery</value>
+            <value>launch</value>
        </init-param>
 
 	<!-- These sakai.host and sakai.secret properties can be set 
@@ -40,21 +39,21 @@
         </supports>
         <supported-locale>en</supported-locale>
         <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
+            <title>Sakai Launch Portlet (JSR-168)</title>
+            <short-title>Launch Portlet</short-title>
             <keywords>Sakai</keywords>
         </portlet-info>
-
     </portlet>
 
+<!--
     <portlet>
-        <portlet-name>SakaiLaunch</portlet-name>
-        <display-name xml:lang="en">Sakai Launch Portlet</display-name>
+        <portlet-name>SakaiGallery</portlet-name>
+        <display-name xml:lang="en">Sakai Gallery Portlet</display-name>
         <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
 
        <init-param>
             <name>sakai.tool</name>
-            <value>launch</value>
+            <value>gallery</value>
        </init-param>
 
         <expiration-cache>60</expiration-cache>
@@ -66,10 +65,11 @@
         </supports>
         <supported-locale>en</supported-locale>
         <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
+            <title>Sakai Gallery Portlet (JSR-168)</title>
+            <short-title>Gallery Portlet</short-title>
             <keywords>Sakai</keywords>
         </portlet-info>
+
     </portlet>
 
     <portlet>
@@ -91,475 +91,16 @@
         </supports>
         <supported-locale>en</supported-locale>
         <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
+            <title>Sakai Tree Portlet (JSR-168)</title>
+            <short-title>Tree Portlet</short-title>
             <keywords>Sakai</keywords>
         </portlet-info>
     </portlet>
-
-
-    <portlet>
-        <portlet-name>sakai_announcements</portlet-name>
-        <display-name xml:lang="en">Sakai Announcements Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-       <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.announcements</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-
-    </portlet>
-
-   <portlet>
-        <portlet-name>sakai_assignment</portlet-name>
-        <display-name xml:lang="en">Sakai Assignments Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-       <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.assignment</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
-   <portlet>
-        <portlet-name>sakai_chat</portlet-name>
-        <display-name xml:lang="en">Sakai Chat Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-       <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.chat</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
-   <portlet>
-        <portlet-name>sakai_discussion</portlet-name>
-        <display-name xml:lang="en">Sakai Discussion Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-       <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.discussion</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-   <portlet>
-        <portlet-name>sakai_gradebook_tool</portlet-name>
-        <display-name xml:lang="en">Sakai Gradebook Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-       <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.gradebook.tool</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-   <portlet>
-        <portlet-name>sakai_mailbox</portlet-name>
-        <display-name xml:lang="en">Sakai Mail Archive Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.mailbox</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
-  <portlet>
-        <portlet-name>sakai_membership</portlet-name>
-        <display-name xml:lang="en">Sakai Membership Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.membership</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
-  <portlet>
-        <portlet-name>sakai_messageforums</portlet-name>
-        <display-name xml:lang="en">Sakai Message Forums Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.messageforums</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_preferences</portlet-name>
-        <display-name xml:lang="en">Sakai Preferences Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.preferences</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_presentation</portlet-name>
-        <display-name xml:lang="en">Sakai Presentation Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.presentation</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
-  <portlet>
-        <portlet-name>sakai_profile</portlet-name>
-        <display-name xml:lang="en">Sakai Profile Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.profile</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_resources</portlet-name>
-        <display-name xml:lang="en">Sakai Resources Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.resources</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_rwiki</portlet-name>
-        <display-name xml:lang="en">Sakai Wiki Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.rwiki</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_samigo</portlet-name>
-        <display-name xml:lang="en">Sakai Assessment Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.samigo</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_site_roster</portlet-name>
-        <display-name xml:lang="en">Sakai Roster Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.site.roster</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-    <portlet>
-        <portlet-name>sakai_schedule</portlet-name>
-        <display-name xml:lang="en">Sakai Calendar Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.schedule</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_siteinfo</portlet-name>
-        <display-name xml:lang="en">Sakai Site Info Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.siteinfo</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-  <portlet>
-        <portlet-name>sakai_syllabus</portlet-name>
-        <display-name xml:lang="en">Sakai Syllabus Portlet</display-name>
-        <portlet-class>org.sakaiproject.portlets.SakaiLaunch</portlet-class>
-
-        <init-param>
-            <name>sakai.tool</name>
-            <value>sakai.syllabus</value>
-       </init-param>
-
-        <expiration-cache>60</expiration-cache>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
-            <portlet-mode>help</portlet-mode>
-        </supports>
-        <supported-locale>en</supported-locale>
-        <portlet-info>
-            <title>Sakai Portlet</title>
-            <short-title>Sakai Portlet</short-title>
-            <keywords>Sakai</keywords>
-        </portlet-info>
-    </portlet>
-
-
 
     <user-attribute>
         <description xml:lang="en">Host Name</description>
         <name>host.name</name>
     </user-attribute>
+-->
 
 </portlet-app>

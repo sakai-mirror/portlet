@@ -19,7 +19,7 @@
  *
  **********************************************************************************/
 
-package org.sakaiproject.portlets;
+package org.sakaiproject.portlet.util;
 
 import java.util.Map;
 

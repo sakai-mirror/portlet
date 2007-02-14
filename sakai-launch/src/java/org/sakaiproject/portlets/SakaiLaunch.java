@@ -21,6 +21,9 @@
 
 package org.sakaiproject.portlets;
 
+import org.sakaiproject.portlet.util.PortalUser;
+import org.sakaiproject.portlet.util.SakaiPortletUtil;
+
 import javax.portlet.GenericPortlet;
 import javax.portlet.RenderRequest;
 import javax.portlet.ActionRequest;
@@ -40,7 +43,6 @@ import javax.portlet.PortletSession;
 
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.io.File;
 
 import java.util.List;
 import java.util.Vector;
@@ -133,7 +135,7 @@ public class SakaiLaunch extends GenericPortlet {
 
 	Properties properties = null;
         try {
-                java.io.InputStream is = getConfigStream("sakaiportlet.properties",this.getClass());
+                java.io.InputStream is = SakaiPortletUtil.getConfigStream("sakaiportlet.properties",this.getClass());
 
                 if (null != is) {
                     properties = new java.util.Properties();
@@ -233,27 +235,22 @@ public class SakaiLaunch extends GenericPortlet {
             return title;
         }
 
-        public String toStringFull() {
-            return "title=" + title + " url=" + getUrl() + " toolTitle=" + toolTitle + " toolUrl=" + getToolUrl();
-        }
-
         // TODO: UrlEncode
-        public String getUrl() {
+        public String getUrl(PortletRequest request) {
 	    if ( id == null ) return "null";
             String retval = host + "/portal/worksite/" + URLEncoder.encode(id);
             if (session != null)
-                retval = retval + "?sakai.session="
-                        + URLEncoder.encode(session);
+                retval = retval + addSakaiSession(request, session, host, "?");
+
             return retval;
         }
 
         // TODO: UrlEncode
-        public String getToolUrl() {
+        public String getToolUrl(PortletRequest request) {
             if ( toolId == null ) return "null";
             String retval = host + "/portal/page/" + URLEncoder.encode(toolId);
             if (session != null)
-                retval = retval + "?sakai.session="
-                        + URLEncoder.encode(session);
+                retval = retval + addSakaiSession(request, session, host, "?");
             return retval;
         }
     }
@@ -392,7 +389,7 @@ public class SakaiLaunch extends GenericPortlet {
 	// Single tool mode
 	if ( sakaiPlacement != null ) {
 	    String thisUrl = host + "/portal/page/" + URLEncoder.encode(sakaiPlacement)
-                + "?panel=Main&sakai.session=" + URLEncoder.encode(session);
+                + "?panel=Main" + addSakaiSession(request, session, host, "&");
 	    debugPrint("Single tool url="+thisUrl);
             out
                     .println("<iframe frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\"");
@@ -406,7 +403,7 @@ public class SakaiLaunch extends GenericPortlet {
 	if ( "gallery".equals(initType) ) {
 
 	    theUrl = host + "/portal/gallery";
-	    if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
+	    if ( session != null ) theUrl = theUrl + addSakaiSession(request, session, host, "?");
 	    debugPrint("Galery tool url="+theUrl);
 
             out.println("<iframe frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\"");
@@ -452,8 +449,9 @@ public class SakaiLaunch extends GenericPortlet {
 				if ( k > 0 ) out.print(",\n");
 				Element tool = (Element) tools.item(k);
 				theUrl = getTag(tool ,"url");
-	    			if ( session != null ) theUrl = theUrl + "?sakai.session=" + 
-					URLEncoder.encode(session) + "&sakai.state.reset=true";
+	    			if ( session != null ) theUrl = theUrl + 
+                                        "?sakai.state.reset=true" + 
+                                        addSakaiSession(request, session, host, "&");
 				debugPrint("Tree url="+theUrl);
 				if ( firstUrl == null ) firstUrl = theUrl;
 	        		out.print("      ['"+getTag(tool ,"title")+"','"+theUrl+"']");
@@ -542,7 +540,9 @@ public class SakaiLaunch extends GenericPortlet {
 
 	// If we are in a tool
 	if ( currentTool != null ) {
-		url.setParameter("sakai.action","tool");
+		// url.setParameter("sakai.action","tool");
+                		url.setParameter("sakai.action","select.tool");
+				url.setParameter("new.tool",currentTool);
 		if ( currentToolTitle == null ) currentToolTitle = currentTool;   //  Will look Ugly!
 		out.println(" > <a class=\"portlet-menu-item-selected\" href=\"" + url.toString() + "\">"+currentToolTitle+"</a>");
 		// TODO - Add Help Here someday - need to add it to the DOM :)
@@ -550,14 +550,18 @@ public class SakaiLaunch extends GenericPortlet {
 		out.println("<br>");
 
 		theUrl = currentToolUrl;
-	    	if ( session != null ) theUrl = theUrl + "?sakai.session=" + URLEncoder.encode(session);
+	    	if ( session != null ) theUrl = theUrl + 
+			"?sakai.state.reset=true" +
+	     	        addSakaiSession(request, session, host, "&");
 
 		String windowID = "Main" + currentTool.replace("-","x");
 
 		out.println("<iframe name=\""+windowID+"\" id=\""+windowID+"\"");
-		out.println("  title=\""+currentToolTitle+"\" class =\"portletMainIframe\" height=\"50\" width=\"100%\"");
+		out.println("  title=\""+currentToolTitle+"\" class =\"portletMainIframe\" height=\"500px\" width=\"100%\"");
 		out.println("  frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\" ");
-		out.println("  src=\""+theUrl+"&sakai.state.reset=true\">");
+		out.println("  src=\""+theUrl+"\">");
+		// out.println("  src=\""+theUrl+"\">");
+		// out.println("  src=\"/library/image/sakai_powered.gif\">");
 		out.println("</iframe>");
 		return;
 
@@ -604,7 +608,6 @@ public class SakaiLaunch extends GenericPortlet {
 
 	    return;
         }
-	
 
     }
 
@@ -675,7 +678,10 @@ public class SakaiLaunch extends GenericPortlet {
         PortletSession pSession = request.getPortletSession(true);
 
         String launchState = (String) pSession.getAttribute(LAUNCH_STATE);
-        pSession.removeAttribute(LAUNCH_STATE);
+	if ( launchState == null ) {
+		launchState = LAUNCH_STATE_LAUNCH;
+System.out.println("WHAT THE HELL!");
+	}
 
         debugPrint("processAction mode=" + request.getPortletMode()+" state=" + launchState);
 
@@ -696,6 +702,7 @@ public class SakaiLaunch extends GenericPortlet {
                 processActionLaunch(request, response);
                 return;
             }
+System.out.println("LKJASKLJASKLASLKJASJLKSLJKS");
         } else if (PortletMode.EDIT.equals(request.getPortletMode())) {
             boolean editOK;
             pSession.removeAttribute("site.list");
@@ -738,6 +745,7 @@ public class SakaiLaunch extends GenericPortlet {
         String sakaiHost = request.getParameter("sakai.host");
         String sakaiId = request.getParameter("sakai.id");
         String sakaiPw = request.getParameter("sakai.pw");
+System.out.println("sakai.host="+sakaiHost+" sakaiId="+sakaiId+" sakaiPw="+sakaiPw);
 
 	// After login in clear out placement
 	pSession.removeAttribute("sakai.placement");
@@ -815,7 +823,7 @@ public class SakaiLaunch extends GenericPortlet {
         String action = request.getParameter("sakai.action");
         String newSite = request.getParameter("new.site");
         String nt = request.getParameter("new.tool");
-	debugPrint("action="+action+" newSite="+newSite+" nt="+nt);
+	debugPrint("sakai.action="+action+" newSite="+newSite+" nt="+nt);
 
 	if ( "tool".equals(action) ) {
 		System.out.println("Need to handle Reset Tool!");
@@ -1053,7 +1061,7 @@ public class SakaiLaunch extends GenericPortlet {
             siteList = (String) call.invoke(new Object[] { session, "",
                     new Integer(1), new Integer(9999) });
 
-	    debugPrint(siteList);
+	    // debugPrint(siteList);
             Document doc = Xml.readDocumentFromString(siteList);
 
             pSession.setAttribute("site.doc", doc);
@@ -1106,7 +1114,6 @@ public class SakaiLaunch extends GenericPortlet {
 
                 allSites.add(theSite);
 
-		// System.out.println(theSite.toStringFull());
             }
 
             pSession.setAttribute("site.list", allSites);
@@ -1122,65 +1129,14 @@ public class SakaiLaunch extends GenericPortlet {
         }
     }
 
+    // This is a way to test the portlet *within* Sakai - we do not want to add the 
+    // sakai.session parameter to the URLs or the cookies keep getting reset to a new 
+    // session each time you navigate to a tool
+    private String addSakaiSession(PortletRequest request, String session, String host, 
+	String connect)
+    {
+	if ( SakaiPortletUtil.isSakaiPortal(request) && host.startsWith("http://localhost:") ) return "";
 
-        /**
-         * Get an InputStream for a particular file name - first check the sakai.home area and then 
-         * revert to the classpath.
-         *
-         * This is a utility method used several places.
-         */
-        public static java.io.InputStream getConfigStream(String fileName, Class curClass)
-        {
-		// Within Sakai default path is usually tomcat/sakai/file.properties
-		// Sakai deployers can move this.
-
-		// When we area not in Sakai's JVM, this may be several places
-		// depending on the JVM/OS, etc
-		//  - the directory where we started Tomcat
-		//  - the user's hojme directory
-		//  - the root directory of the system
-		// Also the user can start the portal JVN with -Dsakai.home= to force this path
-		
-                String sakaiHome = System.getProperty("sakai.home");
-                String filePath = sakaiHome + fileName;
-		// System.out.println("filePath="+filePath);
-
-                try
-                {
-                        java.io.File f = new java.io.File(filePath);
-                        if (f.exists())
-                        {
-                                return new java.io.FileInputStream(f);
-                        }
-                }
-                catch (Throwable t)
-                {
-                        // Not found in the sakai.home area
-                }
-
-		// See if we can find this property file relative to a  class loader
-                if ( curClass == null ) return null;
-
-                java.io.InputStream istream = null;
-
-		// TODO: Figure out *where* the file really needs to go to 
-		// trigger this first section of code. It would be cool
-		// to have this be shared/lib or somewhere - I just cannot
-		// figure this out at this point - Chuck
-
-                // Load from the class loader
-                istream = curClass.getClassLoader().getResourceAsStream(fileName);
-                if ( istream != null ) return istream;
-
-                // Load from the webapp class relative
-		// tomcat/webapps/sakai-webapp/WEB-INF/classes/org/sakaiproject/this/class/file.properties
-                istream = curClass.getResourceAsStream(fileName);
-                if ( istream != null ) return istream;
-
-                // Loading from the webapp class at the root
-		// tomcat/webapps/sakai-webapp/WEB-INF/classes/file.properties
-                istream = curClass.getResourceAsStream("/"+fileName);
-                return istream;
-        }
-
+	return connect + "sakai.session=" + URLEncoder.encode(session);
+    }
 }
