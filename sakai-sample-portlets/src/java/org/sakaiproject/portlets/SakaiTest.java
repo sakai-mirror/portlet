@@ -103,6 +103,8 @@ public class SakaiTest extends GenericPortlet {
         	sendToJSP(request, response, "/css.jsp");
 	} else if ( "param.test".equalsIgnoreCase(view) ) {
 		doParamView(request, response);
+	} else if ( "snoop.test".equalsIgnoreCase(view) ) {
+		doSnoopView(request, response);
 	} else {
 		doMainView(request, response);
 	}
@@ -123,6 +125,10 @@ public class SakaiTest extends GenericPortlet {
 
         url.setParameter("sakai.url.action","css.test");
 	out.println("<a  href=\"" + url.toString() + "\">Test JSR-168 CSS</a><br>");
+
+        url.setParameter("sakai.url.action","snoop.test");
+	out.println("<a  href=\"" + url.toString() + "\">Dump out Portlet Parameters</a><br>");
+
 
 	// Put out the snoop information in a comment
 	out.println("\n<p/>\nView Source to see PortletRequest snoop information<!--");
@@ -161,6 +167,23 @@ public class SakaiTest extends GenericPortlet {
 	out.println("<p/>\nView Source to see PortletRequest snoop information<!--");
 	out.println(snoopPortlet(request));
 	out.println("\n-->\n");
+    }
+
+    public void doSnoopView(RenderRequest request, RenderResponse response)
+            throws PortletException, IOException {
+
+        PortletURL url = response.createActionURL();
+
+        PrintWriter out = response.getWriter();
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"main\">");
+	out.println("<input type=\"submit\" value=\"Return To Main\">");
+	out.println("</form>");
+
+	// Put out the snoop information in a comment
+	out.println("<pre>");
+	out.println(snoopPortlet(request));
+	out.println("</pre>");
     }
 
     public void doEdit(RenderRequest request, RenderResponse response)
@@ -225,6 +248,8 @@ public class SakaiTest extends GenericPortlet {
         	pSession.setAttribute("sakai.view", "param.test");
         } else if ( "css.test".equalsIgnoreCase(action) ) {
         	pSession.setAttribute("sakai.view", "css.test");
+        } else if ( "snoop.test".equalsIgnoreCase(action) ) {
+        	pSession.setAttribute("sakai.view", "snoop.test");
 	} else { // Fall through - go to the main view
 		pSession.removeAttribute("sakai.view");
 	}
