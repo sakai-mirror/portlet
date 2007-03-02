@@ -680,7 +680,6 @@ public class SakaiLaunch extends GenericPortlet {
         String launchState = (String) pSession.getAttribute(LAUNCH_STATE);
 	if ( launchState == null ) {
 		launchState = LAUNCH_STATE_LAUNCH;
-System.out.println("WHAT THE HELL!");
 	}
 
         debugPrint("processAction mode=" + request.getPortletMode()+" state=" + launchState);
