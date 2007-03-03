@@ -103,6 +103,8 @@ public class SakaiTest extends GenericPortlet {
         	sendToJSP(request, response, "/css.jsp");
 	} else if ( "param.test".equalsIgnoreCase(view) ) {
 		doParamView(request, response);
+	} else if ( "pref.test".equalsIgnoreCase(view) ) {
+		doPrefView(request, response);
 	} else if ( "snoop.test".equalsIgnoreCase(view) ) {
 		doSnoopView(request, response);
 	} else {
@@ -126,9 +128,11 @@ public class SakaiTest extends GenericPortlet {
         url.setParameter("sakai.url.action","css.test");
 	out.println("<a  href=\"" + url.toString() + "\">Test JSR-168 CSS</a><br>");
 
+        url.setParameter("sakai.url.action","pref.test");
+	out.println("<a  href=\"" + url.toString() + "\">Test JSR-168 Preferences</a><br>");
+
         url.setParameter("sakai.url.action","snoop.test");
 	out.println("<a  href=\"" + url.toString() + "\">Dump out Portlet Parameters</a><br>");
-
 
 	// Put out the snoop information in a comment
 	out.println("\n<p/>\nView Source to see PortletRequest snoop information<!--");
@@ -167,6 +171,52 @@ public class SakaiTest extends GenericPortlet {
 	out.println("<p/>\nView Source to see PortletRequest snoop information<!--");
 	out.println(snoopPortlet(request));
 	out.println("\n-->\n");
+    }
+
+    // Test preferences - a big question is the scoping of preferences
+    // Are preferences pre-user, per placement, and who can set preferences
+    // Sadly - this is *NOT* something that is specified in the JSR-168
+    // Specification - so each portal must make their own choice.
+
+    // In Sakai - the first cut at this is that only folks with site.upd
+    // can set preferences and that preferences are scoped to placement.
+
+    // Frankly smart portlets would check isUserInRole for this and use 
+    // clever mapping in the portlet.xml.  But again that is a convention.
+
+    public void doPrefView(RenderRequest request, RenderResponse response)
+            throws PortletException, IOException {
+
+        PortletURL url = response.createActionURL();
+
+        PrintWriter out = response.getWriter();
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"main\">");
+	out.println("<input type=\"submit\" value=\"Return To Main\">");
+	out.println("</form><br>");
+
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.set\">");
+	out.println("Preference key/value to set:<br><INPUT type=\"text\" name=\"pref.key\">");
+	out.println("= <INPUT type=\"text\" name=\"pref.value\">");
+	out.println("<input type=\"submit\" value=\"Set Pref\">");
+	out.println("</form><br>");
+
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.reset\">");
+	out.println("Preference key to reset:<br><INPUT type=\"text\" name=\"pref.key\">");
+	out.println("<input type=\"submit\" value=\"Reset (delete) Pref\">");
+	out.println("</form><br>");
+
+        PortletPreferences prefs = request.getPreferences();
+        String testPref = prefs.getValue("sakai.testpref", "sakai.testpref.notset");
+
+	out.println("<pre>");
+	out.println("sakai.testpref="+testPref);
+	out.println("</pre>");
+
+	Map prefMap = prefs.getMap();
+	out.println("<hr/>Preference Map:<br/>\n"+prefMap+"<hr/>");
     }
 
     public void doSnoopView(RenderRequest request, RenderResponse response)
@@ -233,14 +283,14 @@ public class SakaiTest extends GenericPortlet {
 
 	String view = (String) pSession.getAttribute("sakai.view");
 	System.out.println("action=" + action + " sakai.view=" + view);
-        // pSession.setAttribute("sakai.action", urlAction);
 
 	// Our next challenge is to pick which action the previous view
 	// has told us to do.  Note that the view may place several actions
 	// on the screen and the user may have an option to pick between
 	// them.  Make sure we handle the "no action" fall-through.
 
-	if ( "main".equalsIgnoreCase(action) ) {
+        pSession.removeAttribute("error.message");
+	if ( action == null || "main".equalsIgnoreCase(action) ) {
 		pSession.removeAttribute("sakai.view");
         } else if ( "param.test".equalsIgnoreCase(action) || 
                     "action.from.a.form".equalsIgnoreCase(action) || 
@@ -250,6 +300,8 @@ public class SakaiTest extends GenericPortlet {
         	pSession.setAttribute("sakai.view", "css.test");
         } else if ( "snoop.test".equalsIgnoreCase(action) ) {
         	pSession.setAttribute("sakai.view", "snoop.test");
+        } else if ( action.startsWith("pref") ) {
+    		processActionPref(action,request, response);
 	} else { // Fall through - go to the main view
 		pSession.removeAttribute("sakai.view");
 	}
@@ -257,6 +309,45 @@ public class SakaiTest extends GenericPortlet {
 	// Print out our new view - off to the Render :)
 	String newView = (String) pSession.getAttribute("sakai.view");
 	System.out.println("==== End of ProcessAction view="+newView+" ====");
+    }
+
+    public void processActionPref(String action,ActionRequest request, ActionResponse response)
+            throws PortletException, IOException {
+
+        PortletSession pSession = request.getPortletSession(true);
+        PortletPreferences prefs = request.getPreferences();
+
+	if ( "pref.set".equalsIgnoreCase(action) ) {
+		String prefKey = request.getParameter("pref.key");
+		String prefValue = request.getParameter("pref.value");
+
+		if ( prefKey == null || prefValue == null || 
+			prefKey.trim().length() < 1 || prefValue.trim().length() < 1) {
+			String errorMsg = "Error need non-empty prefKkey="+prefKey+" and prefValue="+prefValue;
+			System.out.println(errorMsg);
+			pSession.setAttribute("error.message",errorMsg);
+		} else {
+			System.out.println("setting prefKey="+prefKey+" prefValue="+prefValue);
+        		prefs.setValue(prefKey,prefValue);
+        		prefs.store();
+		}
+	} else if ( "pref.reset".equalsIgnoreCase(action) ) {
+		String prefKey = request.getParameter("pref.key");
+		System.out.println("prefKey="+prefKey);
+		if ( prefKey == null || prefKey.trim().length() < 1 ) {
+			String errorMsg = "Error need non-empty prefKey="+prefKey;
+			System.out.println(errorMsg);
+			pSession.setAttribute("error.message",errorMsg);
+		} else {
+			System.out.println("reset prefKey="+prefKey);
+        		prefs.reset(prefKey);
+        		prefs.store();
+		}
+	} else {
+		pSession.setAttribute("error.message","processActionPref - unrecognized action = "+ action);
+	}
+
+        pSession.setAttribute("sakai.view", "pref.test");
     }
 
     private void sendToJSP(RenderRequest request, RenderResponse response,
