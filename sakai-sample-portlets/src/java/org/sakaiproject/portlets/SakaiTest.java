@@ -199,8 +199,17 @@ public class SakaiTest extends GenericPortlet {
 	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.set\">");
 	out.println("Preference key/value to set:<br><INPUT type=\"text\" name=\"pref.key\">");
 	out.println("= <INPUT type=\"text\" name=\"pref.value\">");
-	out.println("<input type=\"submit\" value=\"Set Pref\">");
+	out.println("<input type=\"submit\" value=\"Set Single Pref\">");
 	out.println("</form><br>");
+
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.multi\">");
+	out.println("Preference key to set:<br><INPUT type=\"text\" name=\"pref.key\">");
+	out.println("<br>Preference Values (will be array)<br><INPUT type=\"text\" name=\"pref.value.0\">");
+	out.println("<br><INPUT type=\"text\" name=\"pref.value.1\">");
+	out.println("<input type=\"submit\" value=\"Set Multi Pref\">");
+	out.println("</form><br>");
+
 
 	out.println("<form method=post action=\"" + url.toString() +"\">");
 	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.reset\">");
@@ -209,10 +218,20 @@ public class SakaiTest extends GenericPortlet {
 	out.println("</form><br>");
 
         PortletPreferences prefs = request.getPreferences();
-        String testPref = prefs.getValue("sakai.testpref", "sakai.testpref.notset");
+        String testPref = prefs.getValue("sakai.testpref", null);
+	String [] testPrefs = prefs.getValues("sakai.arraypref", null);
 
 	out.println("<pre>");
 	out.println("sakai.testpref="+testPref);
+	out.println("sakai.arraypref="+testPrefs);
+
+	if ( testPrefs != null ) {
+	    out.println("sakai.arraypref length="+testPrefs.length);
+	    for ( int i=0; i<testPrefs.length && i < 20 ; i++ ) {
+	        out.println("sakai.arraypref["+i+"]="+testPrefs[i]);
+	    }
+	}
+
 	out.println("</pre>");
 
 	Map prefMap = prefs.getMap();
@@ -331,6 +350,25 @@ public class SakaiTest extends GenericPortlet {
         		prefs.setValue(prefKey,prefValue);
         		prefs.store();
 		}
+	} else if ( "pref.multi".equalsIgnoreCase(action) ) {
+		String prefKey = request.getParameter("pref.key");
+		String prefValue0 = request.getParameter("pref.value.0");
+		String prefValue1 = request.getParameter("pref.value.1");
+
+		if ( prefKey == null || prefValue0 == null || prefValue1 == null ||
+		    prefKey.trim().length() < 1 || 
+		    prefValue0.trim().length() < 1 || prefValue1.trim().length() < 1) {
+			String errorMsg = "Need non-empty prefKkey="+prefKey+" and prefValue[0]="+prefValue0+" prefValue[1]="+prefValue1;
+			System.out.println(errorMsg);
+			pSession.setAttribute("error.message",errorMsg);
+		} else {
+			System.out.println("setting prefKey="+prefKey+" prefValue[0]="+prefValue0+" prefValue[1]="+prefValue1);
+			String [] prefArray = new String[2];
+			prefArray[0] = prefValue0;
+			prefArray[1] = prefValue1;
+        		prefs.setValues(prefKey,prefArray);
+        		prefs.store();
+		}
 	} else if ( "pref.reset".equalsIgnoreCase(action) ) {
 		String prefKey = request.getParameter("pref.key");
 		System.out.println("prefKey="+prefKey);
@@ -398,7 +436,7 @@ public class SakaiTest extends GenericPortlet {
 
 
         Map userInfo = (Map) request.getAttribute(PortletRequest.USER_INFO);
-	retval += "UserInfo\n"+userInfo+"\n";
+	retval += "UserInfo (needs Pluto 1.1.1 or later)\n"+userInfo+"\n";
 
 	retval += "isUserInRole(admin)="+request.isUserInRole("admin")+"\n";
 	retval += "isUserInRole(access)="+request.isUserInRole("access")+"\n";
