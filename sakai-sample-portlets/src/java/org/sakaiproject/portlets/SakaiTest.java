@@ -23,9 +23,6 @@ package org.sakaiproject.portlets;
 
 import java.lang.Integer;
 
-import org.sakaiproject.portlet.util.PortalUser;
-import org.sakaiproject.portlet.util.SakaiPortletUtil;
-
 import javax.portlet.GenericPortlet;
 import javax.portlet.RenderRequest;
 import javax.portlet.ActionRequest;
@@ -56,14 +53,6 @@ import java.net.URLEncoder;
 import org.apache.axis.client.Call;
 import org.apache.axis.client.Service;
 import org.apache.axis.AxisFault;
-
-import javax.xml.namespace.QName;
-
-import org.sakaiproject.util.Xml;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * a simple SakaiTest Portlet
@@ -431,9 +420,6 @@ public class SakaiTest extends GenericPortlet {
 
         PortletSession pSession = request.getPortletSession(true);
         PortletPreferences prefs = request.getPreferences();
-
-	retval += "Are we running in sakai="+SakaiPortletUtil.isSakaiPortal(request)+"\n";
-
 
         Map userInfo = (Map) request.getAttribute(PortletRequest.USER_INFO);
 	retval += "UserInfo (needs Pluto 1.1.1 or later)\n"+userInfo+"\n";
