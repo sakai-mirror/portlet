@@ -44,6 +44,7 @@ import javax.portlet.PortletConfig;
 import javax.portlet.WindowState;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletSession;
+import javax.portlet.ReadOnlyException;
 
 /**
  * a simple SakaiTest Portlet
@@ -170,6 +171,14 @@ public class SakaiTest extends GenericPortlet {
         PortletURL url = response.createActionURL();
 
         PrintWriter out = response.getWriter();
+
+        PortletSession pSession = request.getPortletSession(true);
+	String errorMsg = (String) pSession.getAttribute("error.message");
+
+	if ( errorMsg != null && errorMsg.trim().length() > 0 ) {
+		out.println("<p class=\"portlet-msg-error\">"+errorMsg+"</p>");
+	}
+
 	out.println("<form method=post action=\"" + url.toString() +"\">");
 	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"main\">");
 	out.println("<input type=\"submit\" value=\"Return To Main\">");
@@ -327,7 +336,13 @@ public class SakaiTest extends GenericPortlet {
 			pSession.setAttribute("error.message",errorMsg);
 		} else {
 			System.out.println("setting prefKey="+prefKey+" prefValue="+prefValue);
-        		prefs.setValue(prefKey,prefValue);
+			try {
+        			prefs.setValue(prefKey,prefValue);
+			} catch (ReadOnlyException e) {
+				String errorMsg = "setValue threw ReadonlyException storing key="+prefKey;	
+				System.out.println(errorMsg);
+				pSession.setAttribute("error.message",errorMsg);
+			}
         		prefs.store();
 		}
 	} else if ( "pref.multi".equalsIgnoreCase(action) ) {
@@ -346,7 +361,13 @@ public class SakaiTest extends GenericPortlet {
 			String [] prefArray = new String[2];
 			prefArray[0] = prefValue0;
 			prefArray[1] = prefValue1;
-        		prefs.setValues(prefKey,prefArray);
+			try {
+        			prefs.setValues(prefKey,prefArray);
+			} catch (ReadOnlyException e) {
+				String errorMsg = "setValues threw ReadonlyException storing key="+prefKey;	
+				System.out.println(errorMsg);
+				pSession.setAttribute("error.message",errorMsg);
+			}
         		prefs.store();
 		}
 	} else if ( "pref.reset".equalsIgnoreCase(action) ) {
@@ -358,7 +379,13 @@ public class SakaiTest extends GenericPortlet {
 			pSession.setAttribute("error.message",errorMsg);
 		} else {
 			System.out.println("reset prefKey="+prefKey);
-        		prefs.reset(prefKey);
+			try {
+        			prefs.reset(prefKey);
+			} catch (ReadOnlyException e) {
+				String errorMsg = "Preferrences.reset threw ReadonlyException storing key="+prefKey;	
+				System.out.println(errorMsg);
+				pSession.setAttribute("error.message",errorMsg);
+			}
         		prefs.store();
 		}
 	} else {
