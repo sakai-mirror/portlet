@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+        version="1.0">
+
+    <portlet>
+        <portlet-name>SakaiApiTest</portlet-name>
+        <display-name xml:lang="en">Sakai Test Portlet</display-name>
+        <portlet-class>org.sakaiproject.portlets.SakaiApiTest</portlet-class>
+
+       <init-param>
+            <name>sakai.test.init.parm</name>
+            <value>Hello from portlet.xml</value>
+       </init-param>
+
+        <expiration-cache>60</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Sakai Api Test Portlet (JSR-168)</title>
+            <short-title>Api Test Portlet</short-title>
+            <keywords>Sakai</keywords>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>
