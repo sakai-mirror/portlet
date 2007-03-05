@@ -23,6 +23,12 @@ package org.sakaiproject.portlets;
 
 import java.lang.Integer;
 
+import java.io.PrintWriter;
+import java.io.IOException;
+
+import java.util.Map;
+import java.util.Properties;
+
 import javax.portlet.GenericPortlet;
 import javax.portlet.RenderRequest;
 import javax.portlet.ActionRequest;
@@ -37,22 +43,7 @@ import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.PortletConfig;
 import javax.portlet.WindowState;
 import javax.portlet.PortletMode;
-import javax.portlet.ValidatorException;
 import javax.portlet.PortletSession;
-
-import java.io.PrintWriter;
-import java.io.IOException;
-
-import java.util.List;
-import java.util.Vector;
-import java.util.Map;
-import java.util.Properties;
-
-import java.net.URLEncoder;
-
-import org.apache.axis.client.Call;
-import org.apache.axis.client.Service;
-import org.apache.axis.AxisFault;
 
 /**
  * a simple SakaiTest Portlet
