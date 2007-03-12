@@ -22,11 +22,33 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <supported-locale>en</supported-locale>
+
         <portlet-info>
             <title>Sakai Api Test Portlet (JSR-168)</title>
             <short-title>Api Test Portlet</short-title>
             <keywords>Sakai</keywords>
         </portlet-info>
     </portlet>
+
+    <user-attribute>
+  	<description>User Given Name</description>
+	<name>user.name.given</name>
+    </user-attribute>
+    <user-attribute>
+	<description>User Last Name</description>
+	<name>user.name.family</name>
+    </user-attribute>
+    <user-attribute>
+	<description>User Nick Name</description>
+	<name>user.name.nickname</name>
+    </user-attribute>
+    <user-attribute>
+	<description>User eMail</description>
+	<name>user.business-info.online.email</name>
+    </user-attribute>
+    <user-attribute>
+	<description>User eMail</description>
+	<name>user.home-info.online.email</name>
+    </user-attribute>
 
 </portlet-app>
