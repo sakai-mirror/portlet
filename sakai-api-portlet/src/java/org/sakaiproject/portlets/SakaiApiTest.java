@@ -115,6 +115,8 @@ System.out.println("curResponse="+curResponse);
         response.setContentType("text/html");
 
 	System.out.println("==== doView called ====");
+	// Throwable t = new Throwable();
+	// t.printStackTrace();
 
 hack_local();
 
@@ -310,11 +312,13 @@ System.out.println("Context = "+placementContext);
     public void doEdit(RenderRequest request, RenderResponse response)
             throws PortletException, IOException {
 
+	System.out.println("==== doEdit called ====");
         sendToJSP(request, response, "/edit.jsp");
     }
 
     public void doHelp(RenderRequest request, RenderResponse response)
             throws PortletException, IOException {
+	System.out.println("==== doHelp called ====");
         sendToJSP(request, response, "/help.jsp");
     }
 
