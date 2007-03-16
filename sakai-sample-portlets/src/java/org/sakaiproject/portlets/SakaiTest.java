@@ -91,6 +91,7 @@ public class SakaiTest extends GenericPortlet {
 	} else {
 		doMainView(request, response);
 	}
+	System.out.println("==== doView complete ====");
     }
 
     public void doMainView(RenderRequest request, RenderResponse response)
@@ -247,11 +248,13 @@ public class SakaiTest extends GenericPortlet {
     public void doEdit(RenderRequest request, RenderResponse response)
             throws PortletException, IOException {
 
+        System.out.println("==== doEdit called ====");
         sendToJSP(request, response, "/edit.jsp");
     }
 
     public void doHelp(RenderRequest request, RenderResponse response)
             throws PortletException, IOException {
+        System.out.println("==== doHelp called ====");
         sendToJSP(request, response, "/help.jsp");
     }
 
