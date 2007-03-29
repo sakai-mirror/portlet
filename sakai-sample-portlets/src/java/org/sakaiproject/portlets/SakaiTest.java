@@ -200,6 +200,12 @@ public class SakaiTest extends GenericPortlet {
 	out.println("<input type=\"submit\" value=\"Set Multi Pref\">");
 	out.println("</form><br>");
 
+	out.println("<form method=post action=\"" + url.toString() +"\">");
+	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.long\">");
+	out.println("Preference key to store 10K in:<br><INPUT type=\"text\" name=\"pref.key\">");
+	out.println("<input type=\"submit\" value=\"Set 10K Pref\">");
+	out.println("</form><br>");
+
 
 	out.println("<form method=post action=\"" + url.toString() +"\">");
 	out.println("<input type=\"hidden\" name=\"sakai.form.action\" value=\"pref.reset\">");
@@ -212,6 +218,7 @@ public class SakaiTest extends GenericPortlet {
 	String [] testPrefs = prefs.getValues("sakai.arraypref", null);
 
 	out.println("<pre>");
+	if ( testPref != null ) out.println("sakai.testpref.length()="+testPref.length());
 	out.println("sakai.testpref="+testPref);
 	out.println("sakai.arraypref="+testPrefs);
 
@@ -386,6 +393,32 @@ public class SakaiTest extends GenericPortlet {
         			prefs.reset(prefKey);
 			} catch (ReadOnlyException e) {
 				String errorMsg = "Preferrences.reset threw ReadonlyException storing key="+prefKey;	
+				System.out.println(errorMsg);
+				pSession.setAttribute("error.message",errorMsg);
+			}
+        		prefs.store();
+		}
+	} else if ( "pref.long".equalsIgnoreCase(action) ) {
+		String prefKey = request.getParameter("pref.key");
+		String prefValue = "";
+
+		for(int i=0; i<10000; i=i+5) {
+			String x = " "+i+"       ";
+			prefValue = prefValue + x.substring(0,5);
+		}
+		System.out.println("prefValue.length() = "+prefValue.length());
+
+		if ( prefKey == null || prefValue == null || 
+			prefKey.trim().length() < 1 || prefValue.trim().length() < 1) {
+			String errorMsg = "Error need non-empty prefKkey="+prefKey+" and prefValue="+prefValue;
+			System.out.println(errorMsg);
+			pSession.setAttribute("error.message",errorMsg);
+		} else {
+			System.out.println("setting prefKey="+prefKey+" prefValue="+prefValue);
+			try {
+        			prefs.setValue(prefKey,prefValue);
+			} catch (ReadOnlyException e) {
+				String errorMsg = "setValue threw ReadonlyException storing key="+prefKey;	
 				System.out.println(errorMsg);
 				pSession.setAttribute("error.message",errorMsg);
 			}
