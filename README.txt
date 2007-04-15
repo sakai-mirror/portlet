@@ -11,7 +11,7 @@ All portlets are contrib status.
 
 So when the transition is complete - this directory will be empty..
 
-portlet-util                   moved to /contrib/portlets
+portlet-util                   copied to /contrib/portlets
 sakai-api-portlet              will move to /contrib/sakai-portlets
 sakai-launch                   copied to /contrib/portlets
 sakai-sample-portlets          moved to /contrib/portlets
